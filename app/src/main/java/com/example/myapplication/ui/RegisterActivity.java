@@ -3,6 +3,7 @@ package com.example.myapplication.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -58,6 +59,8 @@ public class RegisterActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 Toast.makeText(RegisterActivity.this,"Register user successful", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                finish();
             }else{
                 Toast.makeText(RegisterActivity.this,"Registration failed", Toast.LENGTH_SHORT).show();
             }
