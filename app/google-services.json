@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "85980134522",
+    "project_id": "garden-ramsey-7f5e4",
+    "storage_bucket": "garden-ramsey-7f5e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85980134522:android:dc9e9d8021b0ac5df2cfc3",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85980134522-ho328261t61bjafod2jo6ekmogffm79e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR66rbO6YG_OzWWSYjbQ4XfK1lvxyxNcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "85980134522-ho328261t61bjafod2jo6ekmogffm79e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
