@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,23 +56,23 @@ public class MainActivity extends AppCompatActivity {
                 if (txt_name.isEmpty()) {
                     Toast.makeText(MainActivity.this, "No name entered!", Toast.LENGTH_SHORT).show();
                 } else {
-                    FirebaseDatabase.getInstance().getReference().child("Plants").child("Name").setValue(txt_name);
+                    FirebaseDatabase.getInstance("https://garden-ramsey-7f5e4-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Plants").child("Name").setValue(txt_name);
                     Toast.makeText(MainActivity.this, "Entered!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
         final ArrayList<String> list = new ArrayList<>();
-        final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.list_item, list);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, list);
         listView.setAdapter(adapter);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Plants");
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://garden-ramsey-7f5e4-default-rtdb.europe-west1.firebasedatabase.app/").getReference().child("Plants");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    list.add(snapshot.getValue().toString());
+                    list.add(Objects.requireNonNull(snapshot.getValue()).toString());
                 }
                 adapter.notifyDataSetChanged();
             }
