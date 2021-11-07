@@ -1,6 +1,5 @@
 package com.example.myapplication.ui;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,9 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -59,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 Toast.makeText(RegisterActivity.this,"Register user successful", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                startActivity(new Intent(RegisterActivity.this, StartActivity.class));
                 finish();
             }else{
                 Toast.makeText(RegisterActivity.this,"Registration failed", Toast.LENGTH_SHORT).show();
