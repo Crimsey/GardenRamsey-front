@@ -65,6 +65,9 @@ public class NavigationActivity extends AppCompatActivity implements
             case "Somewhere":
                 goSomewhere();
                 break;
+            case "Calendar":
+                goCalendar();
+                break;
         }
         return false;
     }
@@ -86,10 +89,14 @@ public class NavigationActivity extends AppCompatActivity implements
         Intent i = new Intent(this, SomewhereActivity.class);
         startActivity(i);
         finish();
-
     }
 
-
+    void goCalendar() {
+        Toast.makeText(this, "Going calendar", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(this, CalendarActivity.class);
+        startActivity(i);
+        finish();
+    }
 
     void logout() {
 
