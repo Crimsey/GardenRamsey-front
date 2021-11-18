@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.CalendarActivity"></activity>
+        <activity android:name=".ui.CalendarActivity"/>
         <activity android:name=".ui.SomewhereActivity" />
         <activity android:name=".ui.NavigationActivity" />
         <activity android:name=".ui.MainActivity" />
