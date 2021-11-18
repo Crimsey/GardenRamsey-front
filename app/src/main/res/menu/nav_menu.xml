@@ -5,7 +5,6 @@
         <menu>
 
             <item
-                android:id="@+id/mapSidebar"
                 android:title="Main"
                 />
 

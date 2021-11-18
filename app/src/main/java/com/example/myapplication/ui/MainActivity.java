@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +31,9 @@ public class MainActivity extends NavigationActivity {
     private Button add;
     private ListView listView;
 
+    private FloatingActionButton mFab;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,14 @@ public class MainActivity extends NavigationActivity {
         edit = findViewById(R.id.edit);
         add = findViewById(R.id.add);
         listView = findViewById(R.id.listView);
+        mFab = findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Adding a plant", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, PlantAddActivity.class));
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

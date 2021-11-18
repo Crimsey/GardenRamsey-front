@@ -51,7 +51,7 @@ public class SomewhereActivity extends NavigationActivity implements View.OnClic
         mFab = findViewById(R.id.fab);
         mParentLayout = findViewById(android.R.id.content);
 
-        //setupFirebaseAuth();
+        setupFirebaseAuth();
         mFab.setOnClickListener(this);
     }
 
