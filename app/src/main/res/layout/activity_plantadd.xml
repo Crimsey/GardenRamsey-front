@@ -183,7 +183,7 @@
             android:id="@+id/appBarLayout2"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:background="@drawable/background3">
+            android:background="@color/teal_700">
 
             <TextView
                 android:id="@+id/textView2"
