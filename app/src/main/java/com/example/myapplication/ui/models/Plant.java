@@ -4,14 +4,16 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @IgnoreExtraProperties
 public class Plant {
+    public List<Plant> plants;
 
     private String plant_name;
     private String plant_type;
     private String plant_note;
-    private Date date_plating;
+    private String date_plating;
     private String plant_picture;
     private Integer plant_insolation;
     private String soil_humidity;
@@ -22,7 +24,7 @@ public class Plant {
     private String plant_id;
     private String user_id;
 
-    public Plant(String plant_name, String plant_type, String plant_note, Date date_plating, String plant_picture, Integer plant_insolation, String soil_humidity, Integer air_humidity, Integer plant_nutrient, boolean plant_is_poison, Date timestamp, String plant_id, String user_id) {
+    public Plant(String plant_name, String plant_type, String plant_note, String date_plating, String plant_picture, Integer plant_insolation, String soil_humidity, Integer air_humidity, Integer plant_nutrient, boolean plant_is_poison, Date timestamp, String plant_id, String user_id) {
         this.plant_name = plant_name;
         this.plant_type = plant_type;
         this.plant_note = plant_note;
@@ -65,11 +67,11 @@ public class Plant {
         this.plant_note = plant_note;
     }
 
-    public Date getDate_plating() {
+    public String getDate_plating() {
         return date_plating;
     }
 
-    public void setDate_plating(Date date_plating) {
+    public void setDate_plating(String date_plating) {
         this.date_plating = date_plating;
     }
 
