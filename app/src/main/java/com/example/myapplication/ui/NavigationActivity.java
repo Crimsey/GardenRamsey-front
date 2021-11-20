@@ -32,7 +32,7 @@ public class NavigationActivity extends AppCompatActivity implements
         setupDrawer();
     }
 
-    void setupDrawer(){
+    void setupDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
@@ -101,6 +101,4 @@ public class NavigationActivity extends AppCompatActivity implements
     void logout() {
 
     }
-
-
 }
