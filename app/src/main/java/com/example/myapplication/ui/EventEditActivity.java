@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class EventEditActivity extends NavigationActivity {
+public class EventEditActivity extends AppCompatActivity {
 
     private EditText eventNameET;
     private TextView eventDateTV;
