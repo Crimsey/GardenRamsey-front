@@ -70,10 +70,10 @@ public class CalendarActivity extends NavigationActivity implements CalendarAdap
     }
 
     @Override
-    public void onItemClick(int position, String dayText) {
-        if (!dayText.isEmpty()) {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(CalendarUtils.selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    public void onItemClick(int position, LocalDate date) {
+        if(date != null) {
+            CalendarUtils.selectedDate = date;
+            setMonthView();
         }
     }
 

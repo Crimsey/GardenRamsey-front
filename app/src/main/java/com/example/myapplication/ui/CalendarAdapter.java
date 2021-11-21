@@ -45,6 +45,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
             holder.dayOfMonth.setText("");
         else {
             holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
+            if(date.equals(CalendarUtils.selectedDate))
+                holder.parentView.setBackgroundColor(Color.GREEN);
         }
     }
 
@@ -54,6 +56,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     }
 
     public interface OnItemListener {
-        void onItemClick(int position, String dayText);
+        void onItemClick(int position, LocalDate date);
     }
 }

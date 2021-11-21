@@ -13,13 +13,15 @@ public class Note {
     private @ServerTimestamp Date timestamp;
     private String note_id;
     private String user_id;
+    private String date;
 
-    public Note(String title, String content, Date timestamp, String note_id, String user_id) {
+    public Note(String title, String content, Date timestamp, String note_id, String user_id, String date) {
         this.title = title;
         this.content = content;
         this.timestamp = timestamp;
         this.note_id = note_id;
         this.user_id = user_id;
+        this.date = date;
     }
 
     public Note() {
@@ -64,5 +66,13 @@ public class Note {
 
     public void setNote_id(String note_id) {
         this.note_id = note_id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
