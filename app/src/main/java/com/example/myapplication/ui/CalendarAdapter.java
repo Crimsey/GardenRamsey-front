@@ -64,7 +64,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
             if(date.equals(CalendarUtils.selectedDate))
                 holder.parentView.setBackgroundColor(Color.GREEN);
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            /*FirebaseFirestore db = FirebaseFirestore.getInstance();
             String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             Query userPlants = db.collection("notes")
                     .whereEqualTo("user_id", userId)
@@ -81,7 +81,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                         }
                     }
                 }
-            });
+            });*/
         }
     }
 

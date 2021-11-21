@@ -36,13 +36,13 @@ public class AdapterPlant extends RecyclerView.Adapter<AdapterPlant.ViewHolder>
 
 
             pItem.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View pItem) {
-                                             Intent myIntent = new Intent(contextAdapter, PlantSingleActivity.class);
-                                             myIntent.putExtra("plant_id", String.valueOf(ePlant.getPlant_id()));
-                                             contextAdapter.startActivity(myIntent);
-                                         }
-                                     }
+                @Override
+                public void onClick(View pItem) {
+                    Intent myIntent = new Intent(contextAdapter, PlantSingleActivity.class);
+                    myIntent.putExtra("plant_id", String.valueOf(ePlant.getPlant_id()));
+                    contextAdapter.startActivity(myIntent);
+                }
+            }
             );
         }
     }
@@ -51,7 +51,7 @@ public class AdapterPlant extends RecyclerView.Adapter<AdapterPlant.ViewHolder>
 
         holder.ePlant = mPlants.get(position);
         holder.eName.setText(holder.ePlant.getPlant_name());
-       }
+    }
 
     public AdapterPlant(ArrayList<Plant> pPlants, Context context) {
         //super();

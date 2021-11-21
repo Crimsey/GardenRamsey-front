@@ -60,8 +60,8 @@ public class MainActivity extends NavigationActivity
                         } else {
                             List<Plant> plantList = documentSnapshots.toObjects(Plant.class);
                             adapterPlant = new AdapterPlant((ArrayList<Plant>) plantList, context);
-                            recyclerView.setAdapter(adapterPlant);                            }
-
+                            recyclerView.setAdapter(adapterPlant);
+                        }
                     }
                     })
                             .addOnFailureListener(new OnFailureListener() {
