@@ -8,15 +8,25 @@ public class Watering {
     private String user_id;
     private String date;
     private String watering_id;
+    private String note;
 
     public Watering() {
     }
 
-    public Watering(String plant, String user_id, String date, String watering_id) {
+    public Watering(String plant, String user_id, String date, String watering_id, String note) {
         this.plant = plant;
         this.user_id = user_id;
         this.date = date;
         this.watering_id = watering_id;
+        this.note = note;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getWatering_id() {

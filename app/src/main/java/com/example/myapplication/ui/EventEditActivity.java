@@ -1,5 +1,6 @@
 package com.example.myapplication.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +24,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.internal.ContextUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,7 +34,7 @@ import java.util.List;
 
 public class EventEditActivity extends NavigationActivity {
 
-    private EditText eventNameET;
+    private EditText eventNoteET;
     private TextView eventDateTV;
     Button saveEventButton;
     AwesomeValidation validator;
@@ -71,7 +71,7 @@ public class EventEditActivity extends NavigationActivity {
                             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                    Toast.makeText(getApplicationContext(), "Wybrano: "+parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Selected: "+parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override
@@ -100,7 +100,7 @@ public class EventEditActivity extends NavigationActivity {
     }
 
     private void initWidgets() {
-        eventNameET = findViewById(R.id.eventNameET);
+        eventNoteET = findViewById(R.id.eventNoteET);
         eventDateTV = findViewById(R.id.eventDateTV);
         saveEventButton = findViewById(R.id.saveEventButton);
         validator = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
@@ -108,7 +108,7 @@ public class EventEditActivity extends NavigationActivity {
     }
 
     private void addNotes() {
-        String name = eventNameET.getText().toString();
+        String note = eventNoteET.getText().toString();
         String date = CalendarUtils.formattedDate(CalendarUtils.selectedDate);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -135,11 +135,13 @@ public class EventEditActivity extends NavigationActivity {
         watering.setUser_id(userId);
         watering.setPlant(spinner.getSelectedItem().toString());
         watering.setWatering_id(newWatering.getId());
+        watering.setNote(note);
 
         newWatering.set(watering).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    startActivity(new Intent(EventEditActivity.this, WeekViewActivity.class));
                     Toast.makeText(EventEditActivity.this,"Add new watering!",Toast.LENGTH_SHORT).show();
                 }
                 else{

@@ -48,7 +48,6 @@ public class MainActivity extends NavigationActivity
         mFab.setOnClickListener(v -> {
             Toast.makeText(MainActivity.this,"Fill a form to add a plant",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this,PlantAddActivity.class));
-
         });
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
