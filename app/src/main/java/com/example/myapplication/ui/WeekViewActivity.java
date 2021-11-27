@@ -1,38 +1,27 @@
 package com.example.myapplication.ui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.usage.UsageEvents;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Note;
-import com.example.myapplication.ui.models.Plant;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
+import com.example.myapplication.ui.models.Watering;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.myapplication.ui.CalendarUtils.daysInMonthArray;
 import static com.example.myapplication.ui.CalendarUtils.daysInWeekArray;
 import static com.example.myapplication.ui.CalendarUtils.monthYearFromDate;
 
@@ -71,12 +60,12 @@ public class WeekViewActivity extends NavigationActivity implements CalendarAdap
                 .whereEqualTo("user_id", userId)
                 .whereEqualTo("date", "23 November 2021");*/
 
-        db.collection("notes").whereEqualTo("date", CalendarUtils.formattedDate(CalendarUtils.selectedDate)).whereEqualTo("user_id", userId).get()
+        db.collection("watering").whereEqualTo("date", CalendarUtils.formattedDate(CalendarUtils.selectedDate)).whereEqualTo("user_id", userId).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
-                        List<Note> noteList = documentSnapshots.toObjects(Note.class);
-                        adapterEvent = new AdapterEvent((ArrayList<Note>) noteList, context);
+                        List<Watering> wateringList = documentSnapshots.toObjects(Watering.class);
+                        adapterEvent = new AdapterEvent((ArrayList<Watering>) wateringList, context);
                         recyclerView.setAdapter(adapterEvent);
                     }
                 });

@@ -66,7 +66,7 @@ public class MainActivity extends NavigationActivity
                         }
                     }
                     })
-                            .addOnFailureListener(new OnFailureListener() {
+                    .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();

@@ -15,19 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Note;
+import com.example.myapplication.ui.models.Watering;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.ViewHolder> {
 
-    private ArrayList<Note> mNotes;
-    private List<Note> displayedList;
+    private ArrayList<Watering> mWaterings;
+    private List<Watering> displayedList;
     private Context contextAdapter;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView eName;
-        public Note eNote;
+        public Watering eWatering;
 
         public ViewHolder(View pItem) {
             super(pItem);
@@ -37,14 +38,14 @@ public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.eNote = mNotes.get(position);
-        holder.eName.setText(holder.eNote.getTitle());
+        holder.eWatering = mWaterings.get(position);
+        holder.eName.setText(holder.eWatering.getPlant());
     }
 
-    public AdapterEvent(ArrayList<Note> pNotes, Context context) {
+    public AdapterEvent(ArrayList<Watering> pWaterings, Context context) {
         //super();
-        mNotes = pNotes;
-        displayedList = new ArrayList<>(pNotes);
+        mWaterings = pWaterings;
+        displayedList = new ArrayList<>(mWaterings);
         contextAdapter = context;
     }
 
@@ -59,6 +60,6 @@ public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mNotes.size();
+        return mWaterings.size();
     }
 }
