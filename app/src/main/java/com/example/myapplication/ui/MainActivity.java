@@ -17,6 +17,7 @@ import com.example.myapplication.ui.models.Plant;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -50,8 +51,9 @@ public class MainActivity extends NavigationActivity
 
         });
 
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        rootRef.collection("plants").get()
+        rootRef.collection("plants").whereEqualTo("user_id", userId).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {

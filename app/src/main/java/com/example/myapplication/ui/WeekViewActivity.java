@@ -71,7 +71,7 @@ public class WeekViewActivity extends NavigationActivity implements CalendarAdap
                 .whereEqualTo("user_id", userId)
                 .whereEqualTo("date", "23 November 2021");*/
 
-        db.collection("notes").get()
+        db.collection("notes").whereEqualTo("date", CalendarUtils.formattedDate(CalendarUtils.selectedDate)).whereEqualTo("user_id", userId).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
