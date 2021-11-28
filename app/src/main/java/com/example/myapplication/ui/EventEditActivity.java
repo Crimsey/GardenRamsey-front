@@ -114,18 +114,6 @@ public class EventEditActivity extends NavigationActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        /*DocumentReference newNoteRef = db
-                .collection("notes")
-                .document();
-
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        Note note = new Note();
-        note.setTitle(name);
-        note.setDate(date);
-        note.setNote_id(newNoteRef.getId());
-        note.setUser_id(userId);*/
-
         DocumentReference newWatering = db
                 .collection("watering")
                 .document();
