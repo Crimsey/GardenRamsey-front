@@ -34,7 +34,6 @@ public class AdapterPlant extends RecyclerView.Adapter<AdapterPlant.ViewHolder>
             super(pItem);
             eName = (TextView) pItem.findViewById(R.id.plantName);
 
-
             pItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View pItem) {

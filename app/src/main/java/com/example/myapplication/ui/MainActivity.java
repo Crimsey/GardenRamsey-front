@@ -17,6 +17,7 @@ import com.example.myapplication.ui.models.Plant;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -47,11 +48,11 @@ public class MainActivity extends NavigationActivity
         mFab.setOnClickListener(v -> {
             Toast.makeText(MainActivity.this,"Fill a form to add a plant",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this,PlantAddActivity.class));
-
         });
 
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        rootRef.collection("plants").get()
+        rootRef.collection("plants").whereEqualTo("user_id", userId).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
@@ -64,7 +65,7 @@ public class MainActivity extends NavigationActivity
                         }
                     }
                     })
-                            .addOnFailureListener(new OnFailureListener() {
+                    .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
