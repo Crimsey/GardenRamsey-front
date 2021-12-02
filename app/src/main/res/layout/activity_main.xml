@@ -35,7 +35,7 @@
                 android:focusable="true"
                 android:iconifiedByDefault="false"
                 android:minHeight="40dp"
-                android:queryHint="Search name of event"
+                android:queryHint="Search name of plant"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
