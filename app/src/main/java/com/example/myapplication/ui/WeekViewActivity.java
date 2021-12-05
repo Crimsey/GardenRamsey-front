@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ui.models.Note;
 import com.example.myapplication.ui.models.Watering;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +35,8 @@ public class WeekViewActivity extends NavigationActivity implements CalendarAdap
 
     protected RecyclerView recyclerView;
     protected AdapterEvent adapterEvent;
+
+    public List<Watering> wateringList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,9 @@ public class WeekViewActivity extends NavigationActivity implements CalendarAdap
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        ItemTouchHelper helper = new ItemTouchHelper(callback);
+        helper.attachToRecyclerView(recyclerView);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         /*Query userPlants = db.collection("notes")
@@ -64,7 +72,7 @@ public class WeekViewActivity extends NavigationActivity implements CalendarAdap
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
-                        List<Watering> wateringList = documentSnapshots.toObjects(Watering.class);
+                        wateringList = documentSnapshots.toObjects(Watering.class);
                         adapterEvent = new AdapterEvent((ArrayList<Watering>) wateringList, context);
                         recyclerView.setAdapter(adapterEvent);
                     }
@@ -95,4 +103,32 @@ public class WeekViewActivity extends NavigationActivity implements CalendarAdap
     public void newEventAction(View view) {
         startActivity(new Intent(this, EventEditActivity.class));
     }
+
+    ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("watering").document(wateringList.get(viewHolder.getAdapterPosition()).getWatering_id())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(getApplicationContext(), "Watering deleted!", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Watering not deleted!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+            wateringList.remove(viewHolder.getAdapterPosition());
+            adapterEvent.notifyDataSetChanged();
+        }
+    };
 }
