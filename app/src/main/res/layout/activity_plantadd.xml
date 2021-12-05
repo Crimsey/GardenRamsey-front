@@ -19,13 +19,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/profilePic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:src="@drawable/leaf"
+                    tools:srcCompat="@tools:sample/avatars"
+                     />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/plantName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-
-                    android:hint="Name">
+                    android:hint="Plant Name">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -38,10 +45,9 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/datePlanting"
+                    android:id="@+id/datePlating"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/datePlanting2"
@@ -124,8 +130,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="10dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/plantTypeText"
@@ -152,7 +157,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/backToMain"
+                        android:id="@+id/backToMap"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"

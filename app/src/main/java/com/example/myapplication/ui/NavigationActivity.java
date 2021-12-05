@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.myapplication.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class NavigationActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
@@ -32,7 +33,7 @@ public class NavigationActivity extends AppCompatActivity implements
         setupDrawer();
     }
 
-    void setupDrawer(){
+    void setupDrawer() {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
 
@@ -68,6 +69,9 @@ public class NavigationActivity extends AppCompatActivity implements
             case "Calendar":
                 goCalendar();
                 break;
+            case "Logout":
+                logout();
+                break;
         }
         return false;
     }
@@ -99,8 +103,10 @@ public class NavigationActivity extends AppCompatActivity implements
     }
 
     void logout() {
-
+        Toast.makeText(this, "Logout", Toast.LENGTH_LONG).show();
+        FirebaseAuth.getInstance().signOut();
+        Intent i = new Intent(this, StartActivity.class);
+        startActivity(i);
+        finish();
     }
-
-
 }

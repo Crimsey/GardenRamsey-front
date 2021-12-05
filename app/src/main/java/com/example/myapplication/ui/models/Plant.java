@@ -4,9 +4,11 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @IgnoreExtraProperties
 public class Plant {
+    public List<Plant> plants;
 
     private String plant_name;
     private String plant_type;
