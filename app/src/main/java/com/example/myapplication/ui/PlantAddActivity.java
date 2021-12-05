@@ -47,6 +47,7 @@ import java.util.UUID;
 
 import butterknife.ButterKnife;
 
+
 public class PlantAddActivity extends AppCompatActivity {
 
     private static final String TAG = "PlantAddActivity";
@@ -68,7 +69,7 @@ public class PlantAddActivity extends AppCompatActivity {
     public Uri imageUri;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-
+    private Button pickPicFromPhone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,18 +83,25 @@ public class PlantAddActivity extends AppCompatActivity {
         datePlanting = findViewById(R.id.datePlanting2);
         plantInsolation = findViewById(R.id.plantInsolation);
         soilHumidity = findViewById(R.id.soilHumidity);
-        profilePic = findViewById(R.id.profilePic);
+        //profilePic = findViewById(R.id.profilePic);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
+        pickPicFromPhone=findViewById(R.id.pick_picture_button);
+        pickPicFromPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                choosePicture();
+            }
+        });
+/*
         profilePic.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 choosePicture();            }
         }
         );
-
+*/
         setupRules();
 
         datePlanting.setOnClickListener(new View.OnClickListener() {
