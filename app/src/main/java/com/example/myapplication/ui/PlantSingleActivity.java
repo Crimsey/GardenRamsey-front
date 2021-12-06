@@ -3,6 +3,8 @@ package com.example.myapplication.ui;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
+import android.graphics.drawable.RotateDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -11,6 +13,7 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +47,10 @@ public class PlantSingleActivity extends AppCompatActivity {
 
     private static final String TAG = "EventSingleActivity";
 
-    TextView name;
+    TextView name,text_view_progress,text_view_progress3;
+    private int progr = 0, progr2 =0;
+    ProgressBar progress_bar,progress_bar2;
+    Button button,button_naslonecznienie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,12 @@ public class PlantSingleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plant_single);
 
         name = findViewById(R.id.plantName);
+        progress_bar = findViewById(R.id.progress_bar);
+        progress_bar2 = findViewById(R.id.progress_bar2);
+        button = findViewById(R.id.button);
+        button_naslonecznienie = findViewById(R.id.button_naslonecznienie);
+        text_view_progress = findViewById(R.id.text_view_progress);
+        text_view_progress3 = findViewById(R.id.text_view_progress3);
 
         Bundle b = getIntent().getExtras();
         String plant_id = b.getString("plant_id");
@@ -73,10 +85,32 @@ public class PlantSingleActivity extends AppCompatActivity {
             }
         });
 
+        updateProgressBar();
+
+        button.setOnClickListener(v -> {
+            if (progr <= 90){
+                progr +=10;
+                updateProgressBar();
+            }
+        });
+
+        button_naslonecznienie.setOnClickListener(v -> {
+            if (progr2 <= 90){
+                progr2 +=10;
+                updateProgressBar();
+            }
+        });
 
 
         //setupRules();
 
+    }
+
+    private void updateProgressBar() {
+        progress_bar.setProgress(progr);
+        text_view_progress.setText(progr +"%");
+        progress_bar2.setProgress(progr2);
+        text_view_progress3.setText(progr2 +"%");
     }
    /* private void handleErrors (ResponseBody response){
 
