@@ -36,6 +36,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class PlantSingleActivity extends AppCompatActivity {
     private static final String TAG = "EventSingleActivity";
 
     TextView name,text_view_progress,text_view_progress3;
-    private int progr = 0, progr2 =0;
+    public int progr, progr2;
     ProgressBar progress_bar,progress_bar2;
     Button button,button_naslonecznienie;
 
@@ -80,33 +81,73 @@ public class PlantSingleActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Plant plant = document.toObject(Plant.class);
                         name.setText(plant.getPlant_name());
+                        progr = plant.getPlant_irrigation();
+                        progress_bar.setProgress(progr);
+                        text_view_progress.setText(progr +"%");
+
                     }
                 }
             }
         });
 
-        updateProgressBar();
+        updateProgressBar(progr);
 
         button.setOnClickListener(v -> {
             if (progr <= 90){
                 progr +=10;
-                updateProgressBar();
+                updateProgressBar(progr);
+                updateIrrigation(progr);
+
             }
         });
 
         button_naslonecznienie.setOnClickListener(v -> {
             if (progr2 <= 90){
                 progr2 +=10;
-                updateProgressBar();
+                updateProgressBar(progr);
+                updateIrrigation(progr);
+
             }
         });
+
 
 
         //setupRules();
 
     }
 
-    private void updateProgressBar() {
+    private void updateIrrigation(int progr){
+
+        Bundle b = getIntent().getExtras();
+        String plant_id = b.getString("plant_id");
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference newPlantRef = db
+                .collection("plants")
+                .document(plant_id);
+
+        //String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        //Plant plant = new Plant();
+        Map<String,Object> updates = new HashMap<>();
+        updates.put("plant_irrigation",progr);
+
+        newPlantRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(PlantSingleActivity.this, "IRRIGATION ACTUALIZED", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(PlantSingleActivity.this, "Failed! Check log", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    private void updateProgressBar(int progr) {
         progress_bar.setProgress(progr);
         text_view_progress.setText(progr +"%");
         progress_bar2.setProgress(progr2);

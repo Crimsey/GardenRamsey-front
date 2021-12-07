@@ -21,10 +21,11 @@ public class Plant {
     private Integer plant_nutrient;
     private boolean plant_is_poison;
     private @ServerTimestamp Date timestamp;
+    private Integer plant_irrigation;
     private String plant_id;
     private String user_id;
 
-    public Plant(String plant_name, String plant_type, String plant_note, String date_plating, String plant_picture, Integer plant_insolation, String soil_humidity, Integer air_humidity, Integer plant_nutrient, boolean plant_is_poison, Date timestamp, String plant_id, String user_id) {
+    public Plant(String plant_name, String plant_type, String plant_note, String date_plating, String plant_picture, Integer plant_insolation, String soil_humidity, Integer air_humidity, Integer plant_nutrient, boolean plant_is_poison, Date timestamp, Integer plant_irrigation, String plant_id, String user_id) {
         this.plant_name = plant_name;
         this.plant_type = plant_type;
         this.plant_note = plant_note;
@@ -38,6 +39,7 @@ public class Plant {
         this.timestamp = timestamp;
         this.plant_id = plant_id;
         this.user_id = user_id;
+        this.plant_irrigation = plant_irrigation;
     }
 
     public Plant(){
@@ -147,6 +149,12 @@ public class Plant {
         this.user_id = user_id;
     }
 
+    public Integer getPlant_irrigation() {
+        return plant_irrigation;
+    }
 
+    public void setPlant_irrigation(Integer plant_irrigation) {
+        this.plant_irrigation = plant_irrigation;
+    }
 }
 

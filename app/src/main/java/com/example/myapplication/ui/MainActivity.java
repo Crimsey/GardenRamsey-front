@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.example.myapplication.ui.notification.AlarmReceiver;
 
 public class MainActivity extends NavigationActivity
         implements SearchView.OnQueryTextListener{
@@ -71,6 +75,15 @@ public class MainActivity extends NavigationActivity
                             Toast.makeText(getApplicationContext(), "Error getting data!!!", Toast.LENGTH_LONG).show();
                         }
                     });
+
+        handleNotification();
+    }
+
+    private void handleNotification() {
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5000, pendingIntent);
     }
 
     @Override
