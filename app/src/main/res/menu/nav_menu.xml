@@ -3,11 +3,9 @@
 
     <item android:title="EXPLORE">
         <menu>
-
             <item
                 android:title="Main"
                 />
-
         </menu>
     </item>
     <item android:title="TECHNICAL">
@@ -16,9 +14,7 @@
                 />
             <item android:title="Calendar"
                 />
-            <item
-                android:id="@+id/logoutButton"
-                android:title="Logout"
+            <item android:title="Logout"
                 />
         </menu>
     </item>

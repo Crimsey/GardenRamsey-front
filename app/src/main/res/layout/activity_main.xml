@@ -35,7 +35,7 @@
                 android:focusable="true"
                 android:iconifiedByDefault="false"
                 android:minHeight="40dp"
-                android:queryHint="Search name of event"
+                android:queryHint="Search name of plant"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -46,7 +46,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout2"
+            android:id="@+id/relativeLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp">

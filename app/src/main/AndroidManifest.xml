@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.PlantSingleActivity"/>
+        <activity android:name=".ui.EventEditActivity" />
+        <activity android:name=".ui.WeekViewActivity" />
+        <activity android:name=".ui.PlantSingleActivity" />
         <activity android:name=".ui.CalendarActivity" />
         <activity android:name=".ui.SomewhereActivity" />
         <activity android:name=".ui.NavigationActivity" />

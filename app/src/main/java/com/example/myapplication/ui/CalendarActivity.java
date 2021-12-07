@@ -23,11 +23,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import static com.example.myapplication.ui.CalendarUtils.daysInMonthArray;
+import static com.example.myapplication.ui.CalendarUtils.monthYearFromDate;
+
 public class CalendarActivity extends NavigationActivity implements CalendarAdapter.OnItemListener {
     private static final String TAG = "CalendarActivity";
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private LocalDate selectedDate;
+
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
@@ -35,43 +38,20 @@ public class CalendarActivity extends NavigationActivity implements CalendarAdap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         initWidgets();
-        selectedDate = LocalDate.now();
+        CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
+
         //setupFirebaseAuth();
     }
 
     private void setMonthView() {
-        monthYearText.setText(monthYearFromDate(selectedDate));
-        ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
+        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
-    }
-
-    private ArrayList<String> daysInMonthArray(LocalDate date) {
-        ArrayList<String> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(date);
-
-        int daysInMonth = yearMonth.lengthOfMonth();
-
-        LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
-
-        for(int i = 1; i <= 42; i++) {
-            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                daysInMonthArray.add("");
-            } else {
-                daysInMonthArray.add(String.valueOf(i - dayOfWeek));
-            }
-        }
-        return daysInMonthArray;
-    }
-
-    private String monthYearFromDate(LocalDate date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-        return date.format(formatter);
     }
 
     private void initWidgets() {
@@ -80,21 +60,25 @@ public class CalendarActivity extends NavigationActivity implements CalendarAdap
     }
 
     public void previousMonthAction(View view) {
-        selectedDate = selectedDate.minusMonths(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
     public void nextMonthAction(View view) {
-        selectedDate = selectedDate.plusMonths(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
 
     @Override
-    public void onItemClick(int position, String dayText) {
-        if (!dayText.isEmpty()) {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    public void onItemClick(int position, LocalDate date) {
+        if(date != null) {
+            CalendarUtils.selectedDate = date;
+            setMonthView();
         }
+    }
+
+    public void weeklyAction(View view) {
+        startActivity(new Intent(this, WeekViewActivity.class));
     }
 
     /*
