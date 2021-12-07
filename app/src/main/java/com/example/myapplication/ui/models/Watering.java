@@ -9,16 +9,18 @@ public class Watering {
     private String date;
     private String watering_id;
     private String note;
+    private String plant_id;
 
     public Watering() {
     }
 
-    public Watering(String plant, String user_id, String date, String watering_id, String note) {
+    public Watering(String plant, String user_id, String date, String watering_id, String note, String plant_id) {
         this.plant = plant;
         this.user_id = user_id;
         this.date = date;
         this.watering_id = watering_id;
         this.note = note;
+        this.plant_id = plant_id;
     }
 
     public String getNote() {
@@ -59,5 +61,13 @@ public class Watering {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getPlant_id() {
+        return plant_id;
+    }
+
+    public void setPlant_id(String plant_id) {
+        this.plant_id = plant_id;
     }
 }

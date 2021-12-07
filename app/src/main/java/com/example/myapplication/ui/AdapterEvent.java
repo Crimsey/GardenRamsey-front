@@ -5,16 +5,12 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ui.models.Note;
 import com.example.myapplication.ui.models.Watering;
 
 import java.util.ArrayList;
@@ -30,14 +26,23 @@ public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.ViewHolder> 
         public TextView eName;
         public Watering eWatering;
 
-        public ViewHolder(View pItem) {
-            super(pItem);
-            eName = (TextView) pItem.findViewById(R.id.noteName);
+        public ViewHolder(View wItem) {
+            super(wItem);
+            eName = (TextView) wItem.findViewById(R.id.noteName);
+
+            wItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(contextAdapter, WateringSingleActivity.class);
+                    intent.putExtra("watering_id", String.valueOf(eWatering.getWatering_id()));
+                    intent.putExtra("plant_id", String.valueOf(eWatering.getPlant_id()));
+                    contextAdapter.startActivity(intent);
+                }
+            });
         }
     }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
         holder.eWatering = mWaterings.get(position);
         holder.eName.setText(holder.eWatering.getPlant());
     }

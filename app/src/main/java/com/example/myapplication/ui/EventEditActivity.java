@@ -39,6 +39,7 @@ public class EventEditActivity extends NavigationActivity {
     Button saveEventButton;
     AwesomeValidation validator;
     private Spinner spinner;
+    private String plant_id;
 
     protected AdapterPlant adapterPlant;
 
@@ -64,13 +65,19 @@ public class EventEditActivity extends NavigationActivity {
                             for (Plant plant : plantList) {
                                 stringList.add(plant.getPlant_name());
                             }
-                            //ArrayAdapter<Plant> adapterPlant = new ArrayAdapter<Plant>(EventEditActivity.this, android.R.layout.simple_spinner_item, plantList);
-                            ArrayAdapter<String> adapterPlant = new ArrayAdapter<String>(EventEditActivity.this, android.R.layout.simple_spinner_item, stringList);
-                            adapterPlant.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            List<String> stringListID = new ArrayList<>(plantList.size());
+                            for (Plant plant : plantList) {
+                                stringListID.add(plant.getPlant_id());
+                            }
+                            //ArrayAdapter<Plant> adapterPlant = new ArrayAdapter<Plant>(EventEditActivity.this, R.layout.spinner_item, plantList);
+                            ArrayAdapter<String> adapterPlant = new ArrayAdapter<String>(EventEditActivity.this, R.layout.spinner_item, stringList);
+                            adapterPlant.setDropDownViewResource(R.layout.spinner_item_dropdown);
                             spinner.setAdapter(adapterPlant);
                             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    plant_id = stringListID.get(position);
                                     Toast.makeText(getApplicationContext(), "Selected: "+parent.getItemAtPosition(position), Toast.LENGTH_LONG).show();
                                 }
 
@@ -124,6 +131,7 @@ public class EventEditActivity extends NavigationActivity {
         watering.setPlant(spinner.getSelectedItem().toString());
         watering.setWatering_id(newWatering.getId());
         watering.setNote(note);
+        watering.setPlant_id(plant_id);
 
         newWatering.set(watering).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
