@@ -27,4 +27,8 @@
     <!-- Strings -->
     <string name="note_title">Title</string>
     <string name="note_content">Content</string>
+
+    <!-- Strings related to addPlant form validation -->
+    <string name="plant_name_err">Give proper plant name</string>
+    <string name="planting_date_empty_err">Specify a planting date</string>
 </resources>
