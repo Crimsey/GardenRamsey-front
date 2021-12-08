@@ -1,11 +1,15 @@
 package com.example.myapplication.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.health.PackageHealthStats;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
@@ -47,6 +52,7 @@ import java.util.UUID;
 
 import butterknife.ButterKnife;
 
+
 public class PlantAddActivity extends AppCompatActivity {
 
     private static final String TAG = "PlantAddActivity";
@@ -62,13 +68,14 @@ public class PlantAddActivity extends AppCompatActivity {
     TextInputLayout plantNutrient;
     //Spinner plantIsPoison;
     AwesomeValidation validator;
+    Button backToMap;
 
     private IPlantAddActivity mIPlantAddActivity;
     private ImageView profilePic;
     public Uri imageUri;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-
+    private Button pickPicFromPhone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,18 +89,27 @@ public class PlantAddActivity extends AppCompatActivity {
         datePlanting = findViewById(R.id.datePlanting2);
         plantInsolation = findViewById(R.id.plantInsolation);
         soilHumidity = findViewById(R.id.soilHumidity);
+
         profilePic = findViewById(R.id.profilePic);
+        backToMap = findViewById(R.id.backToMap);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
+        pickPicFromPhone=findViewById(R.id.pick_picture_button);
+        pickPicFromPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                   choosePicture();
+            }
+        });
+/*
         profilePic.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 choosePicture();            }
         }
         );
-
+*/
         setupRules();
 
         datePlanting.setOnClickListener(new View.OnClickListener() {
@@ -110,9 +126,16 @@ public class PlantAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addPlant();
+                startActivity(new Intent(PlantAddActivity.this, MainActivity.class));
             }
         });
 
+        backToMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PlantAddActivity.this, MainActivity.class));
+            }
+        });
     }
 
     private void choosePicture() {
