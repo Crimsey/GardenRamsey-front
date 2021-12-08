@@ -2,6 +2,7 @@ package com.example.myapplication.ui;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -70,6 +71,7 @@ public class PlantAddActivity extends AppCompatActivity {
     TextInputLayout plantNutrient;
     //Spinner plantIsPoison;
     AwesomeValidation validator;
+    Button backToMap;
 
     private IPlantAddActivity mIPlantAddActivity;
 
@@ -87,6 +89,7 @@ public class PlantAddActivity extends AppCompatActivity {
         datePlanting = findViewById(R.id.datePlanting2);
         plantInsolation = findViewById(R.id.plantInsolation);
         soilHumidity = findViewById(R.id.soilHumidity);
+        backToMap = findViewById(R.id.backToMap);
 
         setupRules();
 
@@ -104,9 +107,16 @@ public class PlantAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addPlant();
+                startActivity(new Intent(PlantAddActivity.this, MainActivity.class));
             }
         });
 
+        backToMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PlantAddActivity.this, MainActivity.class));
+            }
+        });
     }
 
     private void showDateTimeDialog(final TextInputEditText eventDatetime) {
