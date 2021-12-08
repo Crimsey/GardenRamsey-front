@@ -68,6 +68,7 @@ public class PlantAddActivity extends AppCompatActivity {
     TextInputLayout plantNutrient;
     //Spinner plantIsPoison;
     AwesomeValidation validator;
+    Button backToMap;
 
     private IPlantAddActivity mIPlantAddActivity;
     private ImageView profilePic;
@@ -88,7 +89,9 @@ public class PlantAddActivity extends AppCompatActivity {
         datePlanting = findViewById(R.id.datePlanting2);
         plantInsolation = findViewById(R.id.plantInsolation);
         soilHumidity = findViewById(R.id.soilHumidity);
+
         profilePic = findViewById(R.id.profilePic);
+        backToMap = findViewById(R.id.backToMap);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -123,9 +126,16 @@ public class PlantAddActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addPlant();
+                startActivity(new Intent(PlantAddActivity.this, MainActivity.class));
             }
         });
 
+        backToMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PlantAddActivity.this, MainActivity.class));
+            }
+        });
     }
 
     private void choosePicture() {
