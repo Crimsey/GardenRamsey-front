@@ -140,7 +140,7 @@ public class PlantAddActivity extends AppCompatActivity {
 
     private void choosePicture() {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/* ");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
@@ -151,14 +151,14 @@ public class PlantAddActivity extends AppCompatActivity {
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
             imageUri = data.getData();
             profilePic.setImageURI(imageUri);
-            uploadPicture();
+
         }
     }
 
     private void uploadPicture() {
         //final ProgressBar pd = new ProgressBar();
-        final String randomKey = UUID.randomUUID().toString();
-        StorageReference riversRef = storageReference.child("images/" + randomKey);
+        //final String randomKey = UUID.randomUUID().toString();
+        StorageReference riversRef = storageReference.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+plantName.getEditText().getText().toString());
 
         riversRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -223,15 +223,7 @@ public class PlantAddActivity extends AppCompatActivity {
 
         validator.clear();
         if (validator.validate()) {
-           /* Date dateOfPlanting;
-            Date dt = new Date();
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd h:m:00");*/
             try {
-                //dateOfPlanting = sdf.parse(date);
-                //if (dateOfPlanting.before(Date.from(Instant.from(LocalDateTime.from(dt.toInstant()).minusDays(1))))) {
-
-                    //mIPlantAddActivity.addNewPlant(name,note,date,insolation,humidity,air);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     DocumentReference newPlantRef = db
@@ -247,11 +239,13 @@ public class PlantAddActivity extends AppCompatActivity {
                     plant.setPlant_id(newPlantRef.getId());
                     plant.setUser_id(userId);
 
+                    uploadPicture();
+
                     newPlantRef.set(plant).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(PlantAddActivity.this, "Enter a title", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PlantAddActivity.this, "Plant added", Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 Toast.makeText(PlantAddActivity.this, "Failed! Check log", Toast.LENGTH_SHORT).show();
