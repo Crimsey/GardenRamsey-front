@@ -21,7 +21,7 @@ public class Plant {
     private Integer plant_nutrient;
     private boolean plant_is_poison;
     private @ServerTimestamp Date timestamp;
-    private Integer plant_irrigation;
+    private Integer plant_irrigation=0;
     private String plant_id;
     private String user_id;
 

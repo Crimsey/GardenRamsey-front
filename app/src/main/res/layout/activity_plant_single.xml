@@ -12,6 +12,17 @@
         android:layout_height="match_parent"
         tools:context=".ui.PlantSingleActivity">
 
+        <ImageView
+            android:id="@+id/plantPic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/leaf"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="36dp"
+            tools:srcCompat="@tools:sample/avatars"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="32dp"/>
+
         <TextView
             android:id="@+id/plantType"
             android:layout_width="wrap_content"
@@ -164,6 +175,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00BFA5">

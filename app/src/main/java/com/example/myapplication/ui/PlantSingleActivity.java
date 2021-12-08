@@ -1,32 +1,24 @@
 package com.example.myapplication.ui;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Typeface;
-import android.graphics.drawable.RotateDrawable;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.style.StyleSpan;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Plant;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,9 +27,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
@@ -52,6 +46,7 @@ public class PlantSingleActivity extends AppCompatActivity {
     public int progr, progr2;
     ProgressBar progress_bar,progress_bar2;
     Button button,button_naslonecznienie;
+    ImageView plantPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +60,7 @@ public class PlantSingleActivity extends AppCompatActivity {
         button_naslonecznienie = findViewById(R.id.button_naslonecznienie);
         text_view_progress = findViewById(R.id.text_view_progress);
         text_view_progress3 = findViewById(R.id.text_view_progress3);
+        plantPic=findViewById(R.id.plantPic);
 
         Bundle b = getIntent().getExtras();
         String plant_id = b.getString("plant_id");
@@ -73,6 +69,8 @@ public class PlantSingleActivity extends AppCompatActivity {
         Query userPlants = db.collection("plants")
                 .whereEqualTo("user_id", userId)
                 .whereEqualTo("plant_id", plant_id);
+        StorageReference storeRef= FirebaseStorage.getInstance().getReference();
+
 
         userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -85,6 +83,19 @@ public class PlantSingleActivity extends AppCompatActivity {
                         progress_bar.setProgress(progr);
                         text_view_progress.setText(progr +"%");
 
+                        storeRef.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+name.getText().toString())
+                                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+
+                                Picasso.get().load(uri).into(plantPic);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
                     }
                 }
             }
@@ -110,9 +121,6 @@ public class PlantSingleActivity extends AppCompatActivity {
             }
         });
 
-
-
-        //setupRules();
 
     }
 
