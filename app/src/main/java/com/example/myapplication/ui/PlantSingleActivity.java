@@ -2,8 +2,12 @@ package com.example.myapplication.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -120,8 +124,8 @@ public class PlantSingleActivity extends AppCompatActivity {
                         SpannableString spannablePoison = new SpannableString(plantPoison.getText());
 
                         spannableType.setSpan(boldSpan,0,8, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        spannableDate.setSpan(boldSpan,0,16, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        spannablePoison.setSpan(boldSpan,0,17, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        spannableDate.setSpan(boldSpan,0,14, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        spannablePoison.setSpan(boldSpan,0,19, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 
                         plantType.setText(spannableType);
                         plantDate.setText(spannableDate);

@@ -16,36 +16,36 @@
             android:id="@+id/plantPic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:src="@drawable/leaf"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="36dp"
-            tools:srcCompat="@tools:sample/avatars"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="32dp"/>
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/plantType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="plantType"
+            android:textColor="@color/black"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.071"
-            android:textSize="16dp"
-            android:textColor="@color/black"/>
+            app:layout_constraintTop_toBottomOf="@+id/plantPic"
+            app:layout_constraintVertical_bias="0.071" />
 
         <TextView
             android:id="@+id/plantIsPoison"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="plantIsPoison"
+            android:textColor="@color/black"
+            android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plantType"
-            android:textSize="16dp"
-            android:textColor="@color/black"/>
+            app:layout_constraintTop_toBottomOf="@+id/plantType" />
 
         <TextView
             android:id="@+id/plantDate"
@@ -53,11 +53,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="plantDate"
+            android:textColor="@color/black"
+            android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plantType"
-            android:textSize="16dp"
-            android:textColor="@color/black"/>
+            app:layout_constraintTop_toBottomOf="@+id/plantType" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar"
@@ -98,24 +98,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="IRRIGATION"
+            android:textColor="@color/black"
+            android:textSize="20dp"
             app:layout_constraintBottom_toTopOf="@+id/progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.214"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textSize="20dp"
-            android:textColor="@color/black"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="INSOLATION"
+            android:textColor="@color/black"
+            android:textSize="20dp"
             app:layout_constraintBottom_toTopOf="@+id/progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.864"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textSize="20dp"
-            android:textColor="@color/black"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/text_view_progress"
@@ -146,13 +146,13 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#00B8D4"
             android:text="+ 10%"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_naslonecznienie"
             app:layout_constraintHorizontal_bias="0.42"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/plantIsPoison"
-            app:layout_constraintVertical_bias="0.813"
-            android:textSize="16dp"/>
+            app:layout_constraintVertical_bias="0.813" />
 
         <Button
             android:id="@+id/button3"
@@ -170,15 +170,15 @@
             android:id="@+id/button_naslonecznienie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="#FFD600"
             android:text="+ 10%"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.817"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/plantIsPoison"
-            app:layout_constraintVertical_bias="0.813"
-            android:backgroundTint="#FFD600"
-            android:textSize="16dp"/>
+            app:layout_constraintVertical_bias="0.813" />
 
         <Button
             android:id="@+id/button5"
