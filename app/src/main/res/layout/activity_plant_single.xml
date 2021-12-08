@@ -21,7 +21,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.071" />
+            app:layout_constraintVertical_bias="0.071"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/plantIsPoison"
@@ -30,7 +32,21 @@
             android:text="plantIsPoison"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plantType" />
+            app:layout_constraintTop_toBottomOf="@+id/plantType"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/plantDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="plantDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plantType"
+            android:textSize="16dp"
+            android:textColor="@color/black"/>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar"
@@ -70,21 +86,25 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NAWODNIENIE"
+            android:text="IRRIGATION"
             app:layout_constraintBottom_toTopOf="@+id/progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.214"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="20dp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NASŁONECZNIENIE"
+            android:text="INSOLATION"
             app:layout_constraintBottom_toTopOf="@+id/progress_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.864"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="20dp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/text_view_progress"
@@ -120,7 +140,8 @@
             app:layout_constraintHorizontal_bias="0.42"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/plantIsPoison"
-            app:layout_constraintVertical_bias="0.813" />
+            app:layout_constraintVertical_bias="0.813"
+            android:textSize="16dp"/>
 
         <Button
             android:id="@+id/button3"
@@ -145,7 +166,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/plantIsPoison"
             app:layout_constraintVertical_bias="0.813"
-            android:backgroundTint="#FFD600"/>
+            android:backgroundTint="#FFD600"
+            android:textSize="16dp"/>
 
         <Button
             android:id="@+id/button5"
