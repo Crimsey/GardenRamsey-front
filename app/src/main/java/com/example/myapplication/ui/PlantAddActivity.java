@@ -140,7 +140,7 @@ public class PlantAddActivity extends AppCompatActivity {
 
     private void choosePicture() {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/* ");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
@@ -223,15 +223,7 @@ public class PlantAddActivity extends AppCompatActivity {
 
         validator.clear();
         if (validator.validate()) {
-           /* Date dateOfPlanting;
-            Date dt = new Date();
-            @SuppressLint("SimpleDateFormat")
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd h:m:00");*/
             try {
-                //dateOfPlanting = sdf.parse(date);
-                //if (dateOfPlanting.before(Date.from(Instant.from(LocalDateTime.from(dt.toInstant()).minusDays(1))))) {
-
-                    //mIPlantAddActivity.addNewPlant(name,note,date,insolation,humidity,air);
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     DocumentReference newPlantRef = db

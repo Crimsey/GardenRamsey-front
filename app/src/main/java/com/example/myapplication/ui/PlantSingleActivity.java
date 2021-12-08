@@ -1,5 +1,6 @@
 package com.example.myapplication.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class PlantSingleActivity extends AppCompatActivity {
 
     private static final String TAG = "EventSingleActivity";
 
-    TextView name,text_view_progress,text_view_progress3;
+    TextView name,text_view_progress,text_view_progress3,plantType,plantDate,plantPoison;
     public int progr, progr2;
     ProgressBar progress_bar,progress_bar2;
     Button button,button_naslonecznienie;
@@ -62,6 +63,9 @@ public class PlantSingleActivity extends AppCompatActivity {
         text_view_progress3 = findViewById(R.id.text_view_progress3);
         plantPic=findViewById(R.id.plantPic);
 
+        plantType = findViewById(R.id.plantType);
+        plantDate = findViewById(R.id.plantDate);
+        plantPoison = findViewById(R.id.plantIsPoison);
         Bundle b = getIntent().getExtras();
         String plant_id = b.getString("plant_id");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -73,6 +77,7 @@ public class PlantSingleActivity extends AppCompatActivity {
 
 
         userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -96,6 +101,31 @@ public class PlantSingleActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         });
+                        if (plant.getPlant_type()!=null){
+                            plantType.setText("Species: " +plant.getPlant_type());
+                        }else {
+                            plantType.setText("Species: ");
+                        }
+                        if (plant.getDate_plating()!=null){
+                            plantDate.setText("Planting date: " +plant.getDate_plating());
+                        } else {
+                            plantDate.setText("Planting date: " );
+                        }
+                        plantPoison.setText("Plant is poisoning: " +plant.isPlant_is_poison());
+
+                        StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+
+                        SpannableString spannableType = new SpannableString(plantType.getText());
+                        SpannableString spannableDate = new SpannableString(plantDate.getText());
+                        SpannableString spannablePoison = new SpannableString(plantPoison.getText());
+
+                        spannableType.setSpan(boldSpan,0,8, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        spannableDate.setSpan(boldSpan,0,16, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        spannablePoison.setSpan(boldSpan,0,17, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+
+                        plantType.setText(spannableType);
+                        plantDate.setText(spannableDate);
+                        plantPoison.setText(spannablePoison);
                     }
                 }
             }
