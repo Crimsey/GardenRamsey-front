@@ -1,11 +1,15 @@
 package com.example.myapplication.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.health.PackageHealthStats;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
@@ -83,7 +88,7 @@ public class PlantAddActivity extends AppCompatActivity {
         datePlanting = findViewById(R.id.datePlanting2);
         plantInsolation = findViewById(R.id.plantInsolation);
         soilHumidity = findViewById(R.id.soilHumidity);
-        //profilePic = findViewById(R.id.profilePic);
+        profilePic = findViewById(R.id.profilePic);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -91,7 +96,7 @@ public class PlantAddActivity extends AppCompatActivity {
         pickPicFromPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                choosePicture();
+                   choosePicture();
             }
         });
 /*
