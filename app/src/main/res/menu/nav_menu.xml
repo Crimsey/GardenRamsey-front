@@ -12,6 +12,8 @@
         <menu>
             <item android:title="Somewhere"
                 />
+            <item android:title="Account"
+                />
             <item android:title="Calendar"
                 />
             <item android:title="Logout"
