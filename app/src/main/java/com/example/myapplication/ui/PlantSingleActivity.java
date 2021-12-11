@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Plant;
@@ -27,7 +25,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.core.Context;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -39,9 +36,6 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 
 public class PlantSingleActivity extends AppCompatActivity {
 
@@ -50,7 +44,7 @@ public class PlantSingleActivity extends AppCompatActivity {
     TextView name,text_view_progress,text_view_progress3,plantType,plantDate,plantPoison;
     public int progr, progr2;
     ProgressBar progress_bar,progress_bar2;
-    Button button,button_naslonecznienie;
+    Button button,button_naslonecznienie,button_Back,button_Edit;
     ImageView plantPic;
 
     @Override
@@ -58,11 +52,14 @@ public class PlantSingleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_single);
 
-        name = findViewById(R.id.plantName);
+        name = findViewById(R.id.plantNameEdit);
         progress_bar = findViewById(R.id.progress_bar);
         progress_bar2 = findViewById(R.id.progress_bar2);
         button = findViewById(R.id.button);
         button_naslonecznienie = findViewById(R.id.button_naslonecznienie);
+        button_Back = findViewById(R.id.button_back);
+        button_Edit = findViewById(R.id.button_edit);
+
         text_view_progress = findViewById(R.id.text_view_progress);
         text_view_progress3 = findViewById(R.id.text_view_progress3);
         plantPic=findViewById(R.id.plantPic);
@@ -92,7 +89,7 @@ public class PlantSingleActivity extends AppCompatActivity {
                         progress_bar.setProgress(progr);
                         text_view_progress.setText(progr +"%");
 
-                        storeRef.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+name.getText().toString())
+                        storeRef.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+plant_id)
                                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -155,6 +152,18 @@ public class PlantSingleActivity extends AppCompatActivity {
             }
         });
 
+        button_Back.setOnClickListener(v -> {
+            Intent intent = new Intent(PlantSingleActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        button_Edit.setOnClickListener(v -> {
+            Intent intent = new Intent(PlantSingleActivity.this, PlantEditActivity.class);
+            intent.putExtra("plant_id", plant_id);
+            startActivity(intent);
+            finish();
+        });
 
     }
 

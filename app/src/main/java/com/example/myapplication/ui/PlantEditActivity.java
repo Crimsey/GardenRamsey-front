@@ -1,9 +1,14 @@
 package com.example.myapplication.ui;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,40 +29,45 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 
 
-public class PlantAddActivity extends AppCompatActivity {
+public class PlantEditActivity extends AppCompatActivity {
 
     private static final String TAG = "PlantAddActivity";
 
-    TextInputLayout plantName;
+    TextInputEditText plantName;
     Spinner plantType;
-    TextInputLayout plantNote;
+    TextInputEditText plantNote;
     TextInputEditText datePlanting;
-    //TextInputLayout plantPicture;
-    TextInputLayout plantInsolation;
-    TextInputLayout soilHumidity;
-    TextInputLayout airHumidity;
-    TextInputLayout plantNutrient;
+    //TextInputEditText plantPicture;
+    TextInputEditText plantInsolation;
+    TextInputEditText soilHumidity;
+    TextInputEditText airHumidity;
+    TextInputEditText plantNutrient;
     //Spinner plantIsPoison;
     AwesomeValidation validator;
-    Button backToMap;
+    Button backToMap,editPlant,deletePlant;
 
     private IPlantAddActivity mIPlantAddActivity;
-    private ImageView profilePic;
+    private ImageView plantPic;
     public Uri imageUri;
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -69,17 +79,19 @@ public class PlantAddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        setContentView(R.layout.activity_plantadd);
+        setContentView(R.layout.activity_plant_edit);
         validator = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
 
-        plantName = findViewById(R.id.plantNameEdit);
+        plantName = findViewById(R.id.plantName2);
         plantType = findViewById(R.id.plantType);
-        plantNote = findViewById(R.id.plantNote);
+        plantNote = findViewById(R.id.plantNote2);
         datePlanting = findViewById(R.id.datePlanting2);
-        plantInsolation = findViewById(R.id.plantInsolation);
-        soilHumidity = findViewById(R.id.soilHumidity);
+        plantInsolation = findViewById(R.id.plantInsolation2);
+        soilHumidity = findViewById(R.id.soilHumidity2);
 
-        profilePic = findViewById(R.id.profilePic);
+        deletePlant = findViewById(R.id.deletePlant);
+
+        plantPic = findViewById(R.id.profilePic);
         backToMap = findViewById(R.id.backToMap);
 
         storage = FirebaseStorage.getInstance();
@@ -88,8 +100,8 @@ public class PlantAddActivity extends AppCompatActivity {
         pickPicFromPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                   choosePicture();
-                   picButtonHasBeenClicked=1;
+                choosePicture();
+                picButtonHasBeenClicked=1;
             }
         });
 /*
@@ -100,6 +112,47 @@ public class PlantAddActivity extends AppCompatActivity {
         }
         );
 */
+        Bundle b = getIntent().getExtras();
+        String plant_id = b.getString("plant_id");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Query userPlants = db.collection("plants")
+                .whereEqualTo("user_id", userId)
+                .whereEqualTo("plant_id", plant_id);
+        StorageReference storeRef= FirebaseStorage.getInstance().getReference();
+
+
+        userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Plant plant = document.toObject(Plant.class);
+                        plantName.setText(plant.getPlant_name());
+                        datePlanting.setText(plant.getDate_plating());
+
+
+                        storeRef.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+plantName.getText().toString())
+                                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+
+                                Picasso.get().load(uri).into(plantPic);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
+
+
         setupRules();
 
         datePlanting.setOnClickListener(new View.OnClickListener() {
@@ -109,28 +162,42 @@ public class PlantAddActivity extends AppCompatActivity {
             }
         });
 
-        Button addPlant;
-        addPlant = findViewById(R.id.CreateEventButton);
+        Button editPlant;
+        editPlant = findViewById(R.id.CreateEventButton);
 
-        addPlant.setOnClickListener(new View.OnClickListener() {
+        editPlant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addPlant();
-                startActivity(new Intent(PlantAddActivity.this, MainActivity.class));
-            }
+                editPlant();
+                Intent myIntent = new Intent(PlantEditActivity.this, PlantSingleActivity.class);
+                myIntent.putExtra("plant_id", plant_id);
+                startActivity(myIntent);
+                finish();            }
         });
 
         backToMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(PlantAddActivity.this, MainActivity.class));
+                Intent myIntent = new Intent(PlantEditActivity.this, PlantSingleActivity.class);
+                myIntent.putExtra("plant_id", plant_id);
+                startActivity(myIntent);
+                finish();
             }
         });
+
+        deletePlant.setOnClickListener(v -> {
+            storeRef.child("plants").child(plant_id).delete();
+            Intent myIntent = new Intent(PlantEditActivity.this, MainActivity.class);
+            startActivity(myIntent);
+            finish();
+        });
+
+
     }
 
     private void choosePicture() {
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/* ");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
@@ -140,17 +207,17 @@ public class PlantAddActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode,data);
         if(requestCode==1 && resultCode==RESULT_OK && data!=null && data.getData()!=null){
             imageUri = data.getData();
-            profilePic.setImageURI(imageUri);
+            plantPic.setImageURI(imageUri);
 
         }
     }
 
-    public void uploadPicture(Plant plant) {
+    private void uploadPicture(String plant_id) {
         //final ProgressBar pd = new ProgressBar();
         //final String randomKey = UUID.randomUUID().toString();
-        String plantID = plant.getPlant_id();
+        String plantID = plant_id;
         String nothing;
-        StorageReference riversRef = storageReference.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+plant.getPlant_id());
+        StorageReference riversRef = storageReference.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+plant_id);
 
         riversRef.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -187,59 +254,102 @@ public class PlantAddActivity extends AppCompatActivity {
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 eventDatetime.setText(simpleDateFormat.format(calendar.getTime()));
+
             }
         };
-        new DatePickerDialog(PlantAddActivity.this, R.style.datepicker, dateSetListener,
+        new DatePickerDialog(PlantEditActivity.this, R.style.datepicker, dateSetListener,
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    public void addPlant() {
-
-        String name = plantName.getEditText().getText().toString();
+    private void editPlant() {
+        /* TextInputEditText plantName;
+    TextInputEditText plantType;
+    TextInputEditText plantNote;
+    TextInputEditText datePlating;
+    TextInputEditText plantPicture;
+    TextInputEditText plantInsolation;
+    TextInputEditText soilHumidity;
+    TextInputEditText airHumidity;
+    TextInputEditText plantNutrient;
+    Spinner plantIsPoison;*/
+        String name = plantName.getText().toString();
         //String type = plantType.getEditText().getText().toString();
-        String note = plantNote.getEditText().getText().toString();
+        String note = plantNote.getText().toString();
         String date = datePlanting.getText().toString();
         //String picture = plantPicture.getEditText().getText().toString();
-        String insolation = plantInsolation.getEditText().getText().toString();
-        String humidity = soilHumidity.getEditText().getText().toString();
+        String insolation = plantInsolation.getText().toString();
+        String humidity = soilHumidity.getText().toString();
         //String air = airHumidity.getEditText().getText().toString();
 
 
         validator.clear();
         if (validator.validate()) {
             try {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    DocumentReference newPlantRef = db
-                            .collection("plants")
-                            .document();
+                Bundle b = getIntent().getExtras();
+                String plant_id = b.getString("plant_id");
 
-                    String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                    Plant plant = new Plant();
+                DocumentReference newPlantRef = db
+                        .collection("plants")
+                        .document(plant_id);
 
-                    plant.setPlant_name(name);
-                    plant.setPlant_note(note);
-                    plant.setDate_plating(date);
-                    plant.setPlant_id(newPlantRef.getId());
-                    plant.setUser_id(userId);
+                //String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    if(picButtonHasBeenClicked!=0){
-                    uploadPicture(plant);
-                    }
+                //Plant plant = new Plant();
+                Map<String,Object> updates = new HashMap<>();
+                updates.put("plant_name",name);
+                updates.put("plant_note",note);
+                updates.put("date_plating",date); //PLATING NIE PLANTING BO LITERÓWKA W MODELU JEST
 
-                    newPlantRef.set(plant).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(PlantAddActivity.this, "Plant added", Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(PlantAddActivity.this, "Failed! Check log", Toast.LENGTH_SHORT).show();
-                            }
+                if(picButtonHasBeenClicked!=0){
+                    uploadPicture(plant_id);
+                }
+
+                newPlantRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            //Toast.makeText(PlantEditActivity.this, "IRRIGATION ACTUALIZED", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                        else{
+                            //Toast.makeText(PlantSingleActivity.this, "Failed! Check log", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
+                /*FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                DocumentReference newPlantRef = db
+                        .collection("plants")
+                        .document();
+
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                Plant plant = new Plant();
+
+                plant.setPlant_name(name);
+                plant.setPlant_note(note);
+                plant.setPlant_id(newPlantRef.getId());
+                plant.setUser_id(userId);
+                plant.setDate_plating(date);
+
+                uploadPicture();
+
+                newPlantRef.set(plant).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(PlantEditActivity.this, "Plant edited", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(PlantEditActivity.this, "Failed! Check log", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });*/
+
+                //}
             } catch (Exception e) {
                 System.out.println("Error occurred " + e.getMessage());
             }

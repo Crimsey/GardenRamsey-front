@@ -15,6 +15,7 @@
         <activity android:name=".ui.EventEditActivity" />
         <activity android:name=".ui.WeekViewActivity" />
         <activity android:name=".ui.PlantSingleActivity" />
+        <activity android:name=".ui.PlantEditActivity" />
         <activity android:name=".ui.CalendarActivity" />
         <activity android:name=".ui.SomewhereActivity" />
         <activity android:name=".ui.NavigationActivity" />
