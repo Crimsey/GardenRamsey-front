@@ -9,7 +9,12 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-
+    <!--!!!!!DELETE BEFORE DEPLOY-->
+    <string name="login_kubek"> kubek@poczta.pl</string>
+    <string name="pass_kubek">zaq12wsx</string>
+    <string name="login_karlito">kb@pl.pl</string>
+    <string name="pass_karlito">test1234</string>
+    <!-- !!!!!!!!!!-->
     <string name="openNavDrawer">Navigation Drawer Open</string>
     <string name="closeNavDrawer">Navigation Drawer Close</string>
     <string name="back"><![CDATA[<-]]></string>

@@ -12,40 +12,70 @@
         android:layout_height="match_parent"
         tools:context=".ui.PlantSingleActivity">
 
-        <TextView
-            android:id="@+id/plantType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="plantType"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+        <ImageView
+            android:id="@+id/plantPic"
+            android:layout_width="190dp"
+            android:layout_height="237dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/leaf"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.071" />
+            tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/plantIsPoison"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="plantIsPoison"
+        <LinearLayout
+            android:layout_width="207dp"
+            android:layout_height="133dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plantType" />
+            app:layout_constraintHorizontal_bias="0.642"
+            app:layout_constraintStart_toEndOf="@+id/plantPic"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.426">
+
+            <TextView
+                android:id="@+id/plantType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="plantType"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/plantDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="plantDate"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/plantIsPoison"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:text="plantIsPoison"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+        </LinearLayout>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar"
             android:layout_width="195dp"
             android:layout_height="169dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginStart="32dp"
             android:indeterminate="false"
             android:max="100"
             android:minWidth="200dp"
             android:minHeight="200dp"
             app:indicatorColor="#00B8D4"
             app:indicatorSize="150dp"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.0"
             app:trackColor="#742962FF"
             app:trackThickness="18dp" />
 
@@ -53,16 +83,17 @@
             android:id="@+id/progress_bar2"
             android:layout_width="195dp"
             android:layout_height="169dp"
-            android:layout_marginStart="228dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginStart="236dp"
             android:indeterminate="false"
             android:max="100"
             android:minWidth="200dp"
             android:minHeight="200dp"
             app:indicatorColor="#FFD600"
             app:indicatorSize="150dp"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:layout_constraintVertical_bias="0.0"
             app:trackColor="#77FFAB00"
             app:trackThickness="18dp" />
 
@@ -70,21 +101,25 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NAWODNIENIE"
-            app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+            android:text="IRRIGATION"
+            android:textColor="@color/black"
+            android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.214"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.213"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plantPic" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="NASŁONECZNIENIE"
-            app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+            android:text="INSOLATION"
+            android:textColor="@color/black"
+            android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.864"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView" />
 
         <TextView
             android:id="@+id/text_view_progress"
@@ -113,49 +148,53 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="150dp"
             android:backgroundTint="#00B8D4"
             android:text="+ 10%"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_naslonecznienie"
-            app:layout_constraintHorizontal_bias="0.42"
+            app:layout_constraintHorizontal_bias="0.355"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plantIsPoison"
-            app:layout_constraintVertical_bias="0.813" />
+            app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/button_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ButTton"
+            android:text="BACK"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/button_naslonecznienie"
-            app:layout_constraintHorizontal_bias="0.09"
+            app:layout_constraintHorizontal_bias="0.041"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/plantIsPoison"
-            app:layout_constraintVertical_bias="0.973" />
+            app:layout_constraintVertical_bias="0.993" />
 
         <Button
             android:id="@+id/button_naslonecznienie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="150dp"
+            android:backgroundTint="#FFD600"
             android:text="+ 10%"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.817"
+            app:layout_constraintHorizontal_bias="0.839"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/plantIsPoison"
-            app:layout_constraintVertical_bias="0.813"
-            android:backgroundTint="#FFD600"/>
+            app:layout_constraintTop_toBottomOf="@+id/progress_bar2"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/button_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="ButtSon"
+            android:layout_marginBottom="4dp"
+            android:text="EDIT"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintHorizontal_bias="0.984"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -164,12 +203,13 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00BFA5">
 
             <TextView
-                android:id="@+id/plantName"
+                android:id="@+id/plantNameEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"

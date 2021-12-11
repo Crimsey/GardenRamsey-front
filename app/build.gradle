@@ -51,6 +51,7 @@ dependencies {
     implementation 'com.basgeekball:awesome-validation:4.2'
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 
 

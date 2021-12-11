@@ -1,71 +1,72 @@
 package com.example.myapplication.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Typeface;
-import android.graphics.drawable.RotateDrawable;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.StyleSpan;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Plant;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.core.Context;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class PlantSingleActivity extends AppCompatActivity {
 
     private static final String TAG = "EventSingleActivity";
 
-    TextView name,text_view_progress,text_view_progress3;
+    TextView name,text_view_progress,text_view_progress3,plantType,plantDate,plantPoison;
     public int progr, progr2;
     ProgressBar progress_bar,progress_bar2;
-    Button button,button_naslonecznienie;
+    Button button,button_naslonecznienie,button_Back,button_Edit;
+    ImageView plantPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_single);
 
-        name = findViewById(R.id.plantName);
+        name = findViewById(R.id.plantNameEdit);
         progress_bar = findViewById(R.id.progress_bar);
         progress_bar2 = findViewById(R.id.progress_bar2);
         button = findViewById(R.id.button);
         button_naslonecznienie = findViewById(R.id.button_naslonecznienie);
+        button_Back = findViewById(R.id.button_back);
+        button_Edit = findViewById(R.id.button_edit);
+
         text_view_progress = findViewById(R.id.text_view_progress);
         text_view_progress3 = findViewById(R.id.text_view_progress3);
+        plantPic=findViewById(R.id.plantPic);
 
+        plantType = findViewById(R.id.plantType);
+        plantDate = findViewById(R.id.plantDate);
+        plantPoison = findViewById(R.id.plantIsPoison);
         Bundle b = getIntent().getExtras();
         String plant_id = b.getString("plant_id");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -73,8 +74,11 @@ public class PlantSingleActivity extends AppCompatActivity {
         Query userPlants = db.collection("plants")
                 .whereEqualTo("user_id", userId)
                 .whereEqualTo("plant_id", plant_id);
+        StorageReference storeRef= FirebaseStorage.getInstance().getReference();
+
 
         userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -85,6 +89,44 @@ public class PlantSingleActivity extends AppCompatActivity {
                         progress_bar.setProgress(progr);
                         text_view_progress.setText(progr +"%");
 
+                        storeRef.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()+"/"+plant_id)
+                                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+
+                                Picasso.get().load(uri).into(plantPic);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        if (plant.getPlant_type()!=null){
+                            plantType.setText("Species: " +plant.getPlant_type());
+                        }else {
+                            plantType.setText("Species: ");
+                        }
+                        if (plant.getDate_plating()!=null){
+                            plantDate.setText("Planting date: " +plant.getDate_plating());
+                        } else {
+                            plantDate.setText("Planting date: " );
+                        }
+                        plantPoison.setText("Plant is poisoning: " +plant.isPlant_is_poison());
+
+                        StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+
+                        SpannableString spannableType = new SpannableString(plantType.getText());
+                        SpannableString spannableDate = new SpannableString(plantDate.getText());
+                        SpannableString spannablePoison = new SpannableString(plantPoison.getText());
+
+                        spannableType.setSpan(boldSpan,0,8, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        spannableDate.setSpan(boldSpan,0,14, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        spannablePoison.setSpan(boldSpan,0,19, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+
+                        plantType.setText(spannableType);
+                        plantDate.setText(spannableDate);
+                        plantPoison.setText(spannablePoison);
                     }
                 }
             }
@@ -110,9 +152,18 @@ public class PlantSingleActivity extends AppCompatActivity {
             }
         });
 
+        button_Back.setOnClickListener(v -> {
+            Intent intent = new Intent(PlantSingleActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
-
-        //setupRules();
+        button_Edit.setOnClickListener(v -> {
+            Intent intent = new Intent(PlantSingleActivity.this, PlantEditActivity.class);
+            intent.putExtra("plant_id", plant_id);
+            startActivity(intent);
+            finish();
+        });
 
     }
 

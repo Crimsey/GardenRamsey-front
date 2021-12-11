@@ -26,19 +26,20 @@
                     android:layout_marginTop="35dp"
                     android:src="@drawable/leaf"
                     tools:srcCompat="@tools:sample/avatars"
-                     />
+                    />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/plantNameEdit"
+                    android:id="@+id/plantName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="54dp"
                     android:hint="Plant Name">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/plantName2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:drawablePadding="10dp"
 
+                        android:drawablePadding="10dp"
                         android:imeOptions="actionNext"
                         android:inputType="textPersonName"
                         android:maxLines="1" />
@@ -73,6 +74,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/plantNote2"
 
                         android:drawablePadding="10dp"
                         android:inputType="text"
@@ -97,6 +99,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Insolation(optional)"
+                            android:id="@+id/plantInsolation2"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,6 +113,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Soil Humidity(optional)"
+                            android:id="@+id/soilHumidity2"
                             android:maxLines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,6 +128,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Plant is poison(optional)"
+                        android:id="@+id/plantIsPoison2"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,6 +183,13 @@
                         android:text="Pick from phone"
                         android:textAlignment="gravity" />
 
+                    <Button
+                        android:id="@+id/deletePlant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#FF6D00"
+                        android:text="DELETE PLANT" />
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -192,18 +204,19 @@
                         android:layout_marginEnd="145dp"
                         android:layout_marginBottom="4dp"
                         android:backgroundTint="@color/purple_500"
-                        android:text="back to list" />
+                        android:text="back to plant" />
 
                     <Button
                         android:id="@+id/CreateEventButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="95dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
                         android:layout_marginEnd="6dp"
                         android:layout_marginBottom="4dp"
                         android:backgroundTint="@color/teal_700"
-                        android:text="Create"
+                        android:text="EDIT"
                         android:textAlignment="gravity" />
+
                 </LinearLayout>
 
             </LinearLayout>
