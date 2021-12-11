@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,14 +22,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Text;
 
 public class AccountActivity extends NavigationActivity {
+
+    private static final String TAG = "AccountActivity";
 
     private TextView emailText;
     private Button changePasswordButton;
@@ -49,10 +56,11 @@ public class AccountActivity extends NavigationActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        Query userPlants = db.collection("plants")
-                .whereEqualTo("user_id", userId);
-        Query userWatering = db.collection("watering")
-                .whereEqualTo("user_id", userId);
+        CollectionReference userPlants = db.collection("plants");
+        Query query = userPlants.whereEqualTo("user_id", userId);
+
+        CollectionReference userWatering = db.collection("watering");
+        Query query1 = userWatering.whereEqualTo("user_id", userId);
 
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +115,32 @@ public class AccountActivity extends NavigationActivity {
                 deleteAccountDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        userPlants.document(document.getId()).delete();
+                                    }
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+                        query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        userWatering.document(document.getId()).delete();
+                                    }
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
                         FirebaseAuth.getInstance().getCurrentUser().delete();
                         Toast.makeText(getApplicationContext(), "Account deleted!", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(AccountActivity.this, StartActivity.class));
