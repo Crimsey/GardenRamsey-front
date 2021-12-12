@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,7 +31,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -121,6 +124,8 @@ public class PlantEditActivity extends AppCompatActivity {
                 .whereEqualTo("plant_id", plant_id);
         StorageReference storeRef= FirebaseStorage.getInstance().getReference();
 
+        CollectionReference userWatering = db.collection("watering");
+        Query query = userWatering.whereEqualTo("user_id", userId).whereEqualTo("plant_id", plant_id);
 
         userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @SuppressLint("SetTextI18n")
@@ -186,7 +191,22 @@ public class PlantEditActivity extends AppCompatActivity {
         });
 
         deletePlant.setOnClickListener(v -> {
-            storeRef.child("plants").child(plant_id).delete();
+            //storeRef.child("plants").child(plant_id).delete();
+            db.collection("plants").document(plant_id).delete();
+
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            userWatering.document(document.getId()).delete();
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
             Intent myIntent = new Intent(PlantEditActivity.this, MainActivity.class);
             startActivity(myIntent);
             finish();
