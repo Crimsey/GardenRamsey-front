@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -81,10 +82,14 @@ public class MainActivity extends NavigationActivity
                         }
                     });
 
-        handleNotification();
+        onSendNotificationsButtonClick();
     }
 
-    private void handleNotification() {
+    public void onSendNotificationsButtonClick() {
+        NotificationEventReceiver.setupAlarm(getApplicationContext());
+    }
+
+    /*private void handleNotification() {
 
         CharSequence name = "ReminderChannel";
         String description = "Channel for reminder";
@@ -121,19 +126,19 @@ public class MainActivity extends NavigationActivity
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager)this.getSystemService(ALARM_SERVICE);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 60 * 60, pendingIntent);*/
-    }
+    //}*/
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        handleNotification();
+        //handleNotification();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        handleNotification();
+        //handleNotification();
     }
 
 
