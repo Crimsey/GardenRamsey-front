@@ -2,6 +2,7 @@ package com.example.myapplication.ui;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -64,6 +65,7 @@ public class PlantAddActivity extends AppCompatActivity {
     private Button pickPicFromPhone;
 
     public int picButtonHasBeenClicked = 0;
+    private int GET_PIC_REQUEST=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,11 @@ public class PlantAddActivity extends AppCompatActivity {
                    choosePicture();
                    picButtonHasBeenClicked=1;
             }
+        });
+        Button takePicBtn=findViewById(R.id.take_picture_button);
+        takePicBtn.setOnClickListener(v -> {
+            Intent takePic=new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivityForResult(takePic,GET_PIC_REQUEST);
         });
 /*
         profilePic.setOnClickListener(new View.OnClickListener(){
@@ -142,6 +149,9 @@ public class PlantAddActivity extends AppCompatActivity {
             imageUri = data.getData();
             profilePic.setImageURI(imageUri);
 
+        }
+        if(requestCode==2 && resultCode==RESULT_OK && data!=null){
+            profilePic.setImageBitmap((Bitmap) data.getExtras().get("data"));
         }
     }
 

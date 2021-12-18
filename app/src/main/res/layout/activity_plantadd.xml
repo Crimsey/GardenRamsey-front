@@ -178,6 +178,17 @@
                         android:text="Pick from phone"
                         android:textAlignment="gravity" />
 
+                    <Button
+                        android:id="@+id/take_picture_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginBottom="4dp"
+                        android:backgroundTint="@color/teal_700"
+                        android:text="Take new"
+                        android:textAlignment="gravity" />
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

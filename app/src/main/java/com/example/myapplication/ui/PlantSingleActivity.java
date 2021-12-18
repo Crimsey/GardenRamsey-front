@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PlantSingleActivity extends AppCompatActivity {
+public class PlantSingleActivity extends NavigationActivity {
 
     private static final String TAG = "EventSingleActivity";
 
@@ -94,7 +94,7 @@ public class PlantSingleActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
 
-                                Picasso.get().load(uri).into(plantPic);
+                                Picasso.get().load(uri).resize(350,500).into(plantPic);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
