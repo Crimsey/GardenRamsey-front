@@ -1,6 +1,9 @@
 package com.example.myapplication.ui.models;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
 
 @IgnoreExtraProperties
 public class Watering {
@@ -10,17 +13,19 @@ public class Watering {
     private String watering_id;
     private String note;
     private String plant_id;
+    private @ServerTimestamp Date timestamp;
 
     public Watering() {
     }
 
-    public Watering(String plant, String user_id, String date, String watering_id, String note, String plant_id) {
+    public Watering(String plant, String user_id, String date, String watering_id, String note, String plant_id, Date timestamp) {
         this.plant = plant;
         this.user_id = user_id;
         this.date = date;
         this.watering_id = watering_id;
         this.note = note;
         this.plant_id = plant_id;
+        this.timestamp = timestamp;
     }
 
     public String getNote() {
@@ -69,5 +74,13 @@ public class Watering {
 
     public void setPlant_id(String plant_id) {
         this.plant_id = plant_id;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }
