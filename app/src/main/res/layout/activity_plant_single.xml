@@ -187,6 +187,16 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <Button
+            android:id="@+id/button_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RATINGS"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.984"
+            app:layout_constraintStart_toEndOf="@+id/button_back"
+            android:layout_marginLeft="20dp"/>
+
+        <Button
             android:id="@+id/button_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

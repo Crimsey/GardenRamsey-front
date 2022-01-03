@@ -44,7 +44,7 @@ public class PlantSingleActivity extends AppCompatActivity {
     TextView name, text_view_progress, text_view_progress3, plantType, plantDate, plantPoison;
     public int progr, progr2;
     ProgressBar progress_bar, progress_bar2;
-    Button button, button_naslonecznienie, button_Back, button_Edit;
+    Button button, button_naslonecznienie, button_Back, button_Edit, button_Ratings;
     ImageView plantPic;
 
     @Override
@@ -59,6 +59,7 @@ public class PlantSingleActivity extends AppCompatActivity {
         button_naslonecznienie = findViewById(R.id.button_naslonecznienie);
         button_Back = findViewById(R.id.button_back);
         button_Edit = findViewById(R.id.button_edit);
+        button_Ratings = findViewById(R.id.button_rating);
 
         text_view_progress = findViewById(R.id.text_view_progress);
         text_view_progress3 = findViewById(R.id.text_view_progress3);
@@ -154,6 +155,14 @@ public class PlantSingleActivity extends AppCompatActivity {
 
         button_Back.setOnClickListener(v -> {
             Intent intent = new Intent(PlantSingleActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        button_Ratings.setOnClickListener( v -> {
+            Intent intent = new Intent(PlantSingleActivity.this, RatingActivity.class);
+            intent.putExtra("plant_id", plant_id);
+            intent.putExtra("plant_name", name.getText().toString());
             startActivity(intent);
             finish();
         });

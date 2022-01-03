@@ -41,7 +41,7 @@ public class Rating {
         this.rating_id = rating_id;
     }
 
-    public double getRate() {
+    public float getRate() {
         return rate;
     }
 
