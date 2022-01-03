@@ -72,6 +72,9 @@ public class NavigationActivity extends AppCompatActivity implements
             case "Calendar":
                 goCalendar();
                 break;
+            case "All Plants":
+                goAllPlants();
+                break;
             case "Logout":
                 logout();
                 break;
@@ -108,6 +111,13 @@ public class NavigationActivity extends AppCompatActivity implements
     void goCalendar() {
         Toast.makeText(this, "Going calendar", Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, CalendarActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    void goAllPlants() {
+        Toast.makeText(this, "Going plant list", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(this, PlantListAllActivity.class);
         startActivity(i);
         finish();
     }

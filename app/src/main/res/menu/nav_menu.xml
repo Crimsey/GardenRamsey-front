@@ -16,6 +16,8 @@
                 />
             <item android:title="Calendar"
                 />
+            <item android:title="All Plants"
+                />
             <item android:title="Logout"
                 />
         </menu>

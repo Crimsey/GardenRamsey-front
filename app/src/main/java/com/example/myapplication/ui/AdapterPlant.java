@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Plant;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class AdapterPlant extends RecyclerView.Adapter<AdapterPlant.ViewHolder>
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView eName;
         public Plant ePlant;
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         public ViewHolder(View pItem) {
             super(pItem);
@@ -36,9 +38,16 @@ public class AdapterPlant extends RecyclerView.Adapter<AdapterPlant.ViewHolder>
             pItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View pItem) {
-                    Intent myIntent = new Intent(contextAdapter, PlantSingleActivity.class);
-                    myIntent.putExtra("plant_id", String.valueOf(ePlant.getPlant_id()));
-                    contextAdapter.startActivity(myIntent);
+                    if(userId.equals(ePlant.getUser_id())) {
+                        Intent myIntent = new Intent(contextAdapter, PlantSingleActivity.class);
+                        myIntent.putExtra("plant_id", String.valueOf(ePlant.getPlant_id()));
+                        contextAdapter.startActivity(myIntent);
+                    } else {
+                        Intent myIntent = new Intent(contextAdapter, PlantSingleAllActivity.class);
+                        myIntent.putExtra("plant_id", String.valueOf(ePlant.getPlant_id()));
+                        myIntent.putExtra("user_id_owner", String.valueOf(ePlant.getUser_id()));
+                        contextAdapter.startActivity(myIntent);
+                    }
                 }
             }
             );
