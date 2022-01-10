@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Rating;
-import com.example.myapplication.ui.models.Watering;
 
 import java.util.ArrayList;
 import java.util.List;

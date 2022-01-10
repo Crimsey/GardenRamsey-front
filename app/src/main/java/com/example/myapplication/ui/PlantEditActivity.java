@@ -127,6 +127,9 @@ public class PlantEditActivity extends AppCompatActivity {
         CollectionReference userWatering = db.collection("watering");
         Query query = userWatering.whereEqualTo("user_id", userId).whereEqualTo("plant_id", plant_id);
 
+        CollectionReference userRating = db.collection("rating");
+        Query query1 = userRating.whereEqualTo("plant_id", plant_id);
+
         userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -200,6 +203,19 @@ public class PlantEditActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (DocumentSnapshot document : task.getResult()) {
                             userWatering.document(document.getId()).delete();
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+
+            query1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            userRating.document(document.getId()).delete();
                         }
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());

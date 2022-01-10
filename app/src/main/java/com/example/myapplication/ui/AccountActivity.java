@@ -62,6 +62,11 @@ public class AccountActivity extends NavigationActivity {
         CollectionReference userWatering = db.collection("watering");
         Query query1 = userWatering.whereEqualTo("user_id", userId);
 
+        CollectionReference userRating = db.collection("rating");
+        Query query2 = userRating.whereEqualTo("user_id_owner", userId);
+
+        Query query3 = userRating.whereEqualTo("user_id_rating", userId);
+
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +139,32 @@ public class AccountActivity extends NavigationActivity {
                                 if (task.isSuccessful()) {
                                     for (DocumentSnapshot document : task.getResult()) {
                                         userWatering.document(document.getId()).delete();
+                                    }
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+                        query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        userRating.document(document.getId()).delete();
+                                    }
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+
+                        query3.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot document : task.getResult()) {
+                                        userRating.document(document.getId()).delete();
                                     }
                                 } else {
                                     Log.d(TAG, "Error getting documents: ", task.getException());
