@@ -231,8 +231,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout2"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:background="@color/teal_700">
+            android:layout_height="43dp"
+            android:background="@drawable/leaves3">
 
             <TextView
                 android:id="@+id/textView2"

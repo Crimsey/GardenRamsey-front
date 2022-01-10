@@ -22,6 +22,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Plant;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,7 +41,7 @@ public class MainActivity extends NavigationActivity
     protected AdapterPlant adapterPlant;
     protected SearchView searchEvent;
 
-    private FloatingActionButton mFab;
+    private ExtendedFloatingActionButton mFab;
 
     private static final String TAG = "MainActivity";
     @Override
