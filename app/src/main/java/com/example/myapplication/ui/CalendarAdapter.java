@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
@@ -45,7 +48,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         View view = inflater.inflate(R.layout.calendar_cell, parent, false);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
 
-        if(days.size() > 15) //month view
+        if (days.size() > 15) //month view
             layoutParams.height = (int) (parent.getHeight() * 0.166666666);
         else //week view
             layoutParams.height = (int) parent.getHeight();
@@ -57,19 +60,33 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         final LocalDate date = days.get(position);
 
-        if(date == null)
+        if (date == null)
             holder.dayOfMonth.setText("");
         else {
             holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
-            if(date.equals(CalendarUtils.selectedDate))
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+            db.collection("watering")
+                    .whereEqualTo("user_id", userId)
+                    .whereEqualTo("date", String.valueOf(date.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))))
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            if (queryDocumentSnapshots.isEmpty()) {
+                                //Log.d(TAG,String.valueOf(date.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))));
+                            } else {
+                                holder.parentView.findViewById(R.id.imageCalendar).setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+            if (date.equals(CalendarUtils.selectedDate))
                 holder.parentView.setBackgroundColor(Color.GREEN);
 
-            /*FirebaseFirestore db = FirebaseFirestore.getInstance();
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            Query userPlants = db.collection("notes")
-                    .whereEqualTo("user_id", userId)
-                    .whereEqualTo("date", "23 November 2021");
-
+            /*
             userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {

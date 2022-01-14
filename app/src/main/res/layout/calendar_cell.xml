@@ -18,4 +18,20 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintVertical_bias="0.25"/>
 
+    <ImageView
+        android:id="@+id/imageCalendar"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:maxWidth="13dp"
+        android:maxHeight="13dp"
+        android:src="@drawable/water_calendar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
+        app:layout_constraintStart_toEndOf="@+id/cellDayText"
+        android:visibility="invisible"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
