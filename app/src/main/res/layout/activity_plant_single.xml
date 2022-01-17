@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
+    android:background="@drawable/orangeflower2"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -215,8 +216,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00BFA5">
+            android:layout_height="43dp"
+            android:background="@drawable/leaves3">
 
             <TextView
                 android:id="@+id/plantNameEdit"

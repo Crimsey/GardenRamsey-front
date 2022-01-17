@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/canning">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -131,13 +132,14 @@
         </RelativeLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@null"
+            android:background="@drawable/water"
+            android:backgroundTint="#2962FF"
             android:onClick="newEventAction"
-            android:text="New Watering"
-            android:textSize="20sp"
+            android:text="New \nWatering"
+            android:textSize="11sp"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -161,8 +163,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00BFA5">
+            android:layout_height="25dp"
+            android:background="@drawable/calendar">
 
         </com.google.android.material.appbar.AppBarLayout>
 

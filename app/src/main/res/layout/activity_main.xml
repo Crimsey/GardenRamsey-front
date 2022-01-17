@@ -9,18 +9,18 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/badyl">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
-            android:background="#00C853" />
+            android:layout_gravity="bottom|right"
+            android:text="+ Add plant"
+            android:backgroundTint="#54D304"
+            />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -61,22 +61,23 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00BFA5">
+            android:layout_height="43dp"
+            android:background="@drawable/leaves3">
 
             <TextView
                 android:id="@+id/eventsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
                 android:layout_gravity="center_horizontal"
+                android:fontFamily="sans-serif-black"
                 android:text="YOUR PLANTS"
                 android:textColor="@color/white"
-                android:textSize="24sp"/>
+                android:textSize="24sp" />
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
