@@ -3,7 +3,6 @@ package com.example.myapplication.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -66,8 +65,14 @@ public class NavigationActivity extends AppCompatActivity implements
             case "Somewhere":
                 goSomewhere();
                 break;
+            case "Account":
+                goAccount();
+                break;
             case "Calendar":
                 goCalendar();
+                break;
+            case "All Plants":
+                goAllPlants();
                 break;
             case "Logout":
                 logout();
@@ -95,9 +100,23 @@ public class NavigationActivity extends AppCompatActivity implements
         finish();
     }
 
+    private void goAccount() {
+        Toast.makeText(this, "Going account info", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(this, AccountActivity.class);
+        startActivity(i);
+        finish();
+    }
+
     void goCalendar() {
         Toast.makeText(this, "Going calendar", Toast.LENGTH_LONG).show();
         Intent i = new Intent(this, CalendarActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    void goAllPlants() {
+        Toast.makeText(this, "Going plant list", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(this, PlantListAllActivity.class);
         startActivity(i);
         finish();
     }

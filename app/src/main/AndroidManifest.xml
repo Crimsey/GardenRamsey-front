@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-    <uses-feature android:name="android.hardware.camera"
-        android:required="false"/>
+
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".ui.WateringSingleActivity"/>
+        <activity android:name=".ui.RatingActivity"></activity>
+        <activity android:name=".ui.PlantSingleAllActivity" />
+        <activity android:name=".ui.PlantListAllActivity" />
+        <activity android:name=".ui.AccountActivity" />
+        <activity android:name=".ui.WateringSingleActivity" />
         <activity android:name=".ui.EventEditActivity" />
         <activity android:name=".ui.WeekViewActivity" />
         <activity android:name=".ui.PlantSingleActivity" />
@@ -23,14 +31,17 @@
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.RegisterActivity" />
         <activity android:name=".ui.PlantAddActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.GET_CONTENT" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <!-- The OPENABLE category declares that the returned file is accessible
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <!--
+                 The OPENABLE category declares that the returned file is accessible
                  from a content provider that supports OpenableColumns
-                 and ContentResolver.openFileDescriptor() -->
-            <category android:name="android.intent.category.OPENABLE" />
-        </intent-filter>
+                 and ContentResolver.openFileDescriptor()
+                -->
+                <category android:name="android.intent.category.OPENABLE" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.StartActivity"
@@ -41,10 +52,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver
             android:name=".ui.notification.AlarmReceiver"
             android:process=":remote" />
     </application>
-
 
 </manifest>

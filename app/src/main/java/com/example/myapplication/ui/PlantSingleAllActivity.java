@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +22,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Plant;
+import com.example.myapplication.ui.models.Rating;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,46 +42,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class PlantSingleActivity extends AppCompatActivity {
+public class PlantSingleAllActivity extends AppCompatActivity {
 
-    private static final String TAG = "EventSingleActivity";
+    private static final String TAG = "PlantSingleAllActivity";
 
-    TextView name, text_view_progress, text_view_progress3, plantType, plantDate, plantPoison;
-    public int progr, progr2;
-    ProgressBar progress_bar, progress_bar2;
-    Button button, button_naslonecznienie, button_Back, button_Edit, button_Ratings;
+    TextView name, plantType, plantDate, plantPoison;
+    Button button_Back, button_Rate;
     ImageView plantPic;
+    EditText comment;
+    RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plant_single);
+        setContentView(R.layout.activity_plant_single_all);
 
         name = findViewById(R.id.plantNameEdit);
-        progress_bar = findViewById(R.id.progress_bar);
-        progress_bar2 = findViewById(R.id.progress_bar2);
-        button = findViewById(R.id.button);
-        button_naslonecznienie = findViewById(R.id.button_naslonecznienie);
         button_Back = findViewById(R.id.button_back);
-        button_Edit = findViewById(R.id.button_edit);
-        button_Ratings = findViewById(R.id.button_rating);
 
-        text_view_progress = findViewById(R.id.text_view_progress);
-        text_view_progress3 = findViewById(R.id.text_view_progress3);
         plantPic = findViewById(R.id.plantPic);
+
+        comment = findViewById(R.id.comment);
+        ratingBar = findViewById(R.id.rating);
+        button_Rate = findViewById(R.id.rateButton);
 
         plantType = findViewById(R.id.plantType);
         plantDate = findViewById(R.id.plantDate);
         plantPoison = findViewById(R.id.plantIsPoison);
         Bundle b = getIntent().getExtras();
         String plant_id = b.getString("plant_id");
+        String user_id_owner = b.getString("user_id_owner");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Query userPlants = db.collection("plants")
-                .whereEqualTo("user_id", userId)
                 .whereEqualTo("plant_id", plant_id);
         StorageReference storeRef = FirebaseStorage.getInstance().getReference();
-
 
         userPlants.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @SuppressLint("SetTextI18n")
@@ -86,11 +85,8 @@ public class PlantSingleActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Plant plant = document.toObject(Plant.class);
                         name.setText(plant.getPlant_name());
-                        progr = plant.getPlant_irrigation();
-                        progress_bar.setProgress(progr);
-                        text_view_progress.setText(progr + "%");
 
-                        storeRef.child("images/").child(FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + plant_id)
+                        storeRef.child("images/").child(plant.getUser_id() + "/" + plant_id)
                                 .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -133,123 +129,51 @@ public class PlantSingleActivity extends AppCompatActivity {
             }
         });
 
-        updateProgressBar(progr);
-
-        button.setOnClickListener(v -> {
-            if (progr <= 90) {
-                progr += 10;
-                updateProgressBar(progr);
-                updateIrrigation(progr);
-
-            }
-        });
-
-        button_naslonecznienie.setOnClickListener(v -> {
-            if (progr2 <= 90) {
-                progr2 += 10;
-                updateProgressBar(progr);
-                updateIrrigation(progr);
-
+        button_Rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rate(comment.getText().toString(), ratingBar.getRating(), plant_id, user_id_owner, name.getText().toString());
             }
         });
 
         button_Back.setOnClickListener(v -> {
-            Intent intent = new Intent(PlantSingleActivity.this, MainActivity.class);
+            Intent intent = new Intent(PlantSingleAllActivity.this, PlantListAllActivity.class);
             startActivity(intent);
             finish();
         });
-
-        button_Ratings.setOnClickListener( v -> {
-            Intent intent = new Intent(PlantSingleActivity.this, RatingActivity.class);
-            intent.putExtra("plant_id", plant_id);
-            intent.putExtra("plant_name", name.getText().toString());
-            startActivity(intent);
-            finish();
-        });
-
-        button_Edit.setOnClickListener(v -> {
-            Intent intent = new Intent(PlantSingleActivity.this, PlantEditActivity.class);
-            intent.putExtra("plant_id", plant_id);
-            startActivity(intent);
-            finish();
-        });
-
     }
 
-    private void updateIrrigation(int progr) {
-
-        Bundle b = getIntent().getExtras();
-        String plant_id = b.getString("plant_id");
-
+    private void rate(String comment, float rate, String plant_id, String user_id_owner, String name) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String user_id_rating = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String user_name_rating = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-        DocumentReference newPlantRef = db
-                .collection("plants")
-                .document(plant_id);
+        DocumentReference newRating = db
+                .collection("rating")
+                .document();
 
-        //String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Rating rating = new Rating();
+        rating.setRating_id(newRating.getId());
+        rating.setRate(rate);
+        rating.setUser_id_owner(user_id_owner);
+        rating.setPlant_id(plant_id);
+        rating.setPlant_name(name);
+        rating.setComment(comment);
+        rating.setUser_id_rating(user_id_rating);
+        rating.setUser_name_rating(user_name_rating);
 
-        //Plant plant = new Plant();
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("plant_irrigation", progr);
-
-        newPlantRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+        newRating.set(rating).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(PlantSingleActivity.this, "IRRIGATION ACTUALIZED", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(PlantSingleActivity.this, "Failed! Check log", Toast.LENGTH_SHORT).show();
+                if(task.isSuccessful()){
+                    startActivity(new Intent(PlantSingleAllActivity.this, PlantListAllActivity.class));
+                    Toast.makeText(PlantSingleAllActivity.this,"Add new rating!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(PlantSingleAllActivity.this,"Error!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
-
-    private void updateProgressBar(int progr) {
-        progress_bar.setProgress(progr);
-        text_view_progress.setText(progr + "%");
-        progress_bar2.setProgress(progr2);
-        text_view_progress3.setText(progr2 + "%");
-    }
-   /* private void handleErrors (ResponseBody response){
-
-        ApiError apiError = Utils.converErrors(response);
-        if (apiError.getErrors() != null) {
-            Log.w("no errors", "apiError.getErrors()" + apiError.getErrors());
-
-            for (Map.Entry<String, List<String>> error : apiError.getErrors().entrySet()) {
-                if (error.getKey().equals("name")) {
-                    name.setError(error.getValue().get(0));
-                }
-                if (error.getKey().equals("startdatetime")) {
-                    startdatetime.setError(error.getValue().get(0));
-                }
-                if (error.getKey().equals("enddatetime")) {
-                    enddatetime.setError(error.getValue().get(0));
-                }
-                if (error.getKey().equals("status")) {
-                    status.setError(error.getValue().get(0));
-                }
-            }
-        } else {
-            Log.e("no errors", "weird");
-        }
-    }
-
-
-
-
-    /*public void setupRules() {
-        validator.addValidation(this, R.id.userFirstName, RegexTemplate.NOT_EMPTY, R.string.err_event_name);
-        validator.addValidation(this, R.id.userLastName, RegexTemplate.NOT_EMPTY, R.string.err_event_name);
-        validator.addValidation(this, R.id.userBirthDate, RegexTemplate.NOT_EMPTY, R.string.err_event_name);
-        //validator.addValidation(this, R.id.userDescription, RegexTemplate.NOT_EMPTY, R.string.err_event_name);
-
-    }*/
-
-
-    //}
-
 }
 
