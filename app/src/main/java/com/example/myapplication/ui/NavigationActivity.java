@@ -62,9 +62,9 @@ public class NavigationActivity extends AppCompatActivity implements
             case "Main":
                 goMain();
                 break;
-            case "Somewhere":
+            /*case "Somewhere":
                 goSomewhere();
-                break;
+                break;*/
             case "Account":
                 goAccount();
                 break;

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.models.Plant;
+import com.example.myapplication.ui.models.Watering;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -28,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -42,6 +45,7 @@ public class MainActivity extends NavigationActivity
     protected SearchView searchEvent;
 
     private ExtendedFloatingActionButton mFab;
+    private LocalDate localDate = LocalDate.now();
 
     private static final String TAG = "MainActivity";
     @Override
@@ -82,11 +86,29 @@ public class MainActivity extends NavigationActivity
                         }
                     });
 
-        handleNotification();
+
+        rootRef.collection("watering")
+                .whereEqualTo("date", String.valueOf(localDate.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))))
+                .whereEqualTo("user_id", userId).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            Log.d(TAG, "onSuccess: LIST EMPTY");
+                        } else {
+                            handleNotification();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Database error!", Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void handleNotification() {
-
         CharSequence name = "ReminderChannel";
         String description = "Channel for reminder";
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -127,14 +149,35 @@ public class MainActivity extends NavigationActivity
     @Override
     protected void onRestart() {
         super.onRestart();
-        handleNotification();
+        /*String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
 
+        rootRef.collection("watering")
+                .whereEqualTo("date", CalendarUtils.formattedDate(localDate))
+                .whereEqualTo("user_id", userId).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        handleNotification();
+                    }
+                });*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        handleNotification();
+        /*String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+
+        rootRef.collection("watering")
+                .whereEqualTo("date", CalendarUtils.formattedDate(localDate))
+                .whereEqualTo("user_id", userId).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        handleNotification();
+                    }
+                });*/
     }
 
 

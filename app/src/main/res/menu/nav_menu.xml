@@ -10,8 +10,6 @@
     </item>
     <item android:title="TECHNICAL">
         <menu>
-            <item android:title="Somewhere"
-                />
             <item android:title="Account"
                 />
             <item android:title="Calendar"
